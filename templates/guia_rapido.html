@@ -1,0 +1,694 @@
+{% extends "recursos_cognitivos_base.html" %}
+
+{% block title %}Guia Rápido - Recursos Cognitivos{% endblock %}
+
+{% block header_title %}Guia Rápido{% endblock %}
+
+{% block mode_text %}Aprenda rapidamente como usar cada ferramenta do sistema.{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="intro-section">
+        <h2><i class="material-icons">menu_book</i> Guia Rápido de Uso</h2>
+        <p class="intro-text">Este guia apresenta um resumo prático de como usar cada ferramenta do sistema. Clique nas abas para navegar entre as diferentes funcionalidades.</p>
+    </div>
+
+    <!-- Navegação por Abas -->
+    <div class="tabs-container">
+        <div class="tabs-nav">
+            <button class="tab-btn active" data-tab="gerador-provas">
+                <i class="material-icons">quiz</i> Gerador de Provas
+            </button>
+            <button class="tab-btn" data-tab="planejador-aulas">
+                <i class="material-icons">cast_for_education</i> Planejador de Aulas
+            </button>
+            <button class="tab-btn" data-tab="correcao-redacoes">
+                <i class="material-icons">rate_review</i> Correção de Redações
+            </button>
+            <button class="tab-btn" data-tab="adaptacao-aee">
+                <i class="material-icons">accessible</i> Adaptação AEE
+            </button>
+            <button class="tab-btn" data-tab="modulos-treinamento">
+                <i class="material-icons">school</i> Módulos de Treinamento
+            </button>
+        </div>
+
+        <!-- Conteúdo das Abas -->
+        <div class="tabs-content">
+            
+            <!-- Gerador de Provas -->
+            <div class="tab-content active" id="gerador-provas">
+                <div class="guide-card">
+                    <div class="guide-header">
+                        <div class="guide-icon provas">
+                            <i class="material-icons">quiz</i>
+                        </div>
+                        <div class="guide-title">
+                            <h3>Gerador de Provas</h3>
+                            <span>Crie avaliações personalizadas</span>
+                        </div>
+                    </div>
+                    
+                    <div class="guide-content">
+                        <div class="steps-section">
+                            <h4><i class="material-icons">list_alt</i> Como Usar:</h4>
+                            <ol class="steps-list">
+                                <li><strong>Preencha os dados básicos:</strong> disciplina, nível de ensino, número de questões</li>
+                                <li><strong>Selecione os tipos de questões:</strong> múltipla escolha, dissertativas, verdadeiro/falso</li>
+                                <li><strong>Defina o conteúdo:</strong> tópicos que devem ser abordados na prova</li>
+                                <li><strong>Configure a dificuldade:</strong> fácil, médio, difícil ou balanceado</li>
+                                <li><strong>Gere o prompt:</strong> clique em "Gerar Prompt de Prova"</li>
+                                <li><strong>Use na IA:</strong> copie o prompt e cole na IA de sua escolha</li>
+                                <li><strong>Processe o resultado:</strong> cole a resposta da IA de volta no sistema</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="features-section">
+                            <h4><i class="material-icons">star</i> Recursos Principais:</h4>
+                            <ul class="features-list">
+                                <li>Alinhamento automático com BNCC</li>
+                                <li>Separação automática de prova e gabarito</li>
+                                <li>Múltiplos tipos de questões</li>
+                                <li>Download em formato texto</li>
+                                <li>Configuração de tempo e pontuação</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tips-section">
+                            <h4><i class="material-icons">lightbulb</i> Dicas:</h4>
+                            <ul class="tips-list">
+                                <li>Seja específico nos tópicos para obter questões mais precisas</li>
+                                <li>Use o alinhamento BNCC para garantir adequação curricular</li>
+                                <li>Revise sempre o conteúdo gerado antes de aplicar</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="action-section">
+                            <a href="/gerador-provas" class="btn-guide">
+                                <i class="material-icons">play_arrow</i> Usar Gerador de Provas
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Planejador de Aulas -->
+            <div class="tab-content" id="planejador-aulas">
+                <div class="guide-card">
+                    <div class="guide-header">
+                        <div class="guide-icon aulas">
+                            <i class="material-icons">cast_for_education</i>
+                        </div>
+                        <div class="guide-title">
+                            <h3>Planejador de Aulas</h3>
+                            <span>Desenvolva planos de aula estruturados</span>
+                        </div>
+                    </div>
+                    
+                    <div class="guide-content">
+                        <div class="steps-section">
+                            <h4><i class="material-icons">list_alt</i> Como Usar:</h4>
+                            <ol class="steps-list">
+                                <li><strong>Defina o tema:</strong> assunto principal da aula</li>
+                                <li><strong>Configure os dados:</strong> disciplina, nível, duração</li>
+                                <li><strong>Estabeleça objetivos:</strong> o que os alunos devem aprender</li>
+                                <li><strong>Descreva o conteúdo:</strong> tópicos específicos a serem abordados</li>
+                                <li><strong>Escolha a metodologia:</strong> estratégias pedagógicas</li>
+                                <li><strong>Defina recursos:</strong> materiais necessários</li>
+                                <li><strong>Gere o plano:</strong> obtenha um plano de aula completo</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="features-section">
+                            <h4><i class="material-icons">star</i> Recursos Principais:</h4>
+                            <ul class="features-list">
+                                <li>Estrutura pedagógica completa</li>
+                                <li>Alinhamento com BNCC</li>
+                                <li>Sugestões de atividades</li>
+                                <li>Métodos de avaliação</li>
+                                <li>Cronograma de tempo</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tips-section">
+                            <h4><i class="material-icons">lightbulb</i> Dicas:</h4>
+                            <ul class="tips-list">
+                                <li>Seja claro nos objetivos de aprendizagem</li>
+                                <li>Considere o perfil da turma ao escolher metodologias</li>
+                                <li>Inclua momentos de avaliação formativa</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="action-section">
+                            <a href="/planejador-aulas" class="btn-guide">
+                                <i class="material-icons">play_arrow</i> Usar Planejador de Aulas
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Correção de Redações -->
+            <div class="tab-content" id="correcao-redacoes">
+                <div class="guide-card">
+                    <div class="guide-header">
+                        <div class="guide-icon redacoes">
+                            <i class="material-icons">rate_review</i>
+                        </div>
+                        <div class="guide-title">
+                            <h3>Correção de Redações</h3>
+                            <span>Obtenha feedback detalhado para textos</span>
+                        </div>
+                    </div>
+                    
+                    <div class="guide-content">
+                        <div class="steps-section">
+                            <h4><i class="material-icons">list_alt</i> Como Usar:</h4>
+                            <ol class="steps-list">
+                                <li><strong>Cole o texto:</strong> insira a redação a ser analisada</li>
+                                <li><strong>Defina o tipo:</strong> dissertação, narração, descrição</li>
+                                <li><strong>Escolha o nível:</strong> ensino fundamental, médio ou superior</li>
+                                <li><strong>Selecione critérios:</strong> gramática, coesão, argumentação</li>
+                                <li><strong>Configure o foco:</strong> correção detalhada ou resumida</li>
+                                <li><strong>Gere a análise:</strong> obtenha feedback completo</li>
+                                <li><strong>Revise sugestões:</strong> implemente as melhorias propostas</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="features-section">
+                            <h4><i class="material-icons">star</i> Recursos Principais:</h4>
+                            <ul class="features-list">
+                                <li>Análise gramatical detalhada</li>
+                                <li>Avaliação de coesão e coerência</li>
+                                <li>Sugestões de melhoria</li>
+                                <li>Pontuação por critérios</li>
+                                <li>Feedback construtivo</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tips-section">
+                            <h4><i class="material-icons">lightbulb</i> Dicas:</h4>
+                            <ul class="tips-list">
+                                <li>Use para dar feedback mais rico aos alunos</li>
+                                <li>Combine com correção manual para melhor resultado</li>
+                                <li>Foque nos pontos de melhoria mais relevantes</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="action-section">
+                            <a href="/correcao-redacoes" class="btn-guide">
+                                <i class="material-icons">play_arrow</i> Usar Correção de Redações
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Adaptação AEE -->
+            <div class="tab-content" id="adaptacao-aee">
+                <div class="guide-card">
+                    <div class="guide-header">
+                        <div class="guide-icon aee">
+                            <i class="material-icons">accessible</i>
+                        </div>
+                        <div class="guide-title">
+                            <h3>Adaptação AEE</h3>
+                            <span>Crie materiais inclusivos</span>
+                        </div>
+                    </div>
+                    
+                    <div class="guide-content">
+                        <div class="steps-section">
+                            <h4><i class="material-icons">list_alt</i> Como Usar:</h4>
+                            <ol class="steps-list">
+                                <li><strong>Informe o perfil:</strong> tipo de deficiência e características</li>
+                                <li><strong>Cole o material original:</strong> conteúdo a ser adaptado</li>
+                                <li><strong>Defina objetivos:</strong> o que o aluno deve alcançar</li>
+                                <li><strong>Escolha adaptações:</strong> linguagem, visual, sensorial</li>
+                                <li><strong>Configure recursos:</strong> tecnologias assistivas necessárias</li>
+                                <li><strong>Gere a adaptação:</strong> obtenha material personalizado</li>
+                                <li><strong>Implemente:</strong> use o material adaptado em sala</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="features-section">
+                            <h4><i class="material-icons">star</i> Recursos Principais:</h4>
+                            <ul class="features-list">
+                                <li>Adaptações para múltiplas deficiências</li>
+                                <li>Simplificação de linguagem</li>
+                                <li>Recursos visuais e sensoriais</li>
+                                <li>Estratégias pedagógicas específicas</li>
+                                <li>Orientações para família</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tips-section">
+                            <h4><i class="material-icons">lightbulb</i> Dicas:</h4>
+                            <ul class="tips-list">
+                                <li>Conheça bem o perfil do estudante</li>
+                                <li>Mantenha os objetivos educacionais</li>
+                                <li>Teste as adaptações antes de implementar</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="action-section">
+                            <a href="/adaptacao-aee" class="btn-guide">
+                                <i class="material-icons">play_arrow</i> Usar Adaptação AEE
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulos de Treinamento -->
+            <div class="tab-content" id="modulos-treinamento">
+                <div class="guide-card">
+                    <div class="guide-header">
+                        <div class="guide-icon treinamento">
+                            <i class="material-icons">school</i>
+                        </div>
+                        <div class="guide-title">
+                            <h3>Módulos de Treinamento</h3>
+                            <span>Aprenda a usar IAs na educação</span>
+                        </div>
+                    </div>
+                    
+                    <div class="guide-content">
+                        <div class="steps-section">
+                            <h4><i class="material-icons">list_alt</i> Como Usar:</h4>
+                            <ol class="steps-list">
+                                <li><strong>Escolha um módulo:</strong> comece pela introdução às IAs</li>
+                                <li><strong>Siga a sequência:</strong> complete os módulos em ordem</li>
+                                <li><strong>Pratique:</strong> aplique o que aprendeu nas ferramentas</li>
+                                <li><strong>Acompanhe progresso:</strong> veja seu desenvolvimento</li>
+                                <li><strong>Revise conceitos:</strong> volte aos módulos quando necessário</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="features-section">
+                            <h4><i class="material-icons">star</i> Módulos Disponíveis:</h4>
+                            <ul class="features-list">
+                                <li>Introdução às IAs na Educação (30 min)</li>
+                                <li>Criando Prompts Eficazes (45 min)</li>
+                                <li>Gerando Provas com IA (40 min)</li>
+                                <li>Planejamento de Aulas (50 min)</li>
+                                <li>Correção de Redações (35 min)</li>
+                                <li>Adaptação para AEE (60 min)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tips-section">
+                            <h4><i class="material-icons">lightbulb</i> Dicas:</h4>
+                            <ul class="tips-list">
+                                <li>Dedique tempo regular para os estudos</li>
+                                <li>Pratique com exemplos reais da sua área</li>
+                                <li>Compartilhe experiências com outros educadores</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="action-section">
+                            <a href="/modulos-treinamento" class="btn-guide">
+                                <i class="material-icons">play_arrow</i> Acessar Módulos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção de Recursos Adicionais -->
+    <div class="resources-section">
+        <h3><i class="material-icons">help_center</i> Recursos Adicionais</h3>
+        
+        <div class="resources-grid">
+            <div class="resource-card">
+                <div class="resource-icon">
+                    <i class="material-icons">psychology</i>
+                </div>
+                <h4>Dicas de Prompts</h4>
+                <p>Aprenda a escrever comandos mais eficazes para obter melhores resultados das IAs.</p>
+            </div>
+            
+            <div class="resource-card">
+                <div class="resource-icon">
+                    <i class="material-icons">security</i>
+                </div>
+                <h4>Ética e IA</h4>
+                <p>Entenda as considerações éticas ao usar inteligência artificial na educação.</p>
+            </div>
+            
+            <div class="resource-card">
+                <div class="resource-icon">
+                    <i class="material-icons">group</i>
+                </div>
+                <h4>Comunidade</h4>
+                <p>Conecte-se com outros educadores que usam IA em suas práticas pedagógicas.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const targetTab = this.getAttribute('data-tab');
+            
+            // Remove active class from all tabs and contents
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding content
+            this.classList.add('active');
+            document.getElementById(targetTab).classList.add('active');
+        });
+    });
+});
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Variáveis de Cores da Marca Recursos Cognitivos */
+:root {
+    --primary-dark: #2B4872;
+    --primary-light: #56CAC9;
+    --primary-medium: #3E69B7;
+    --text-dark: #000000;
+    --text-light: #FFFFFF;
+    --background-light: #f8f9ff;
+    --border-light: #e8ecf5;
+}
+
+.intro-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.intro-section h2 {
+    color: var(--primary-dark);
+}
+
+.intro-text {
+    font-size: 16px;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.tabs-container {
+    background: var(--text-light);
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(43, 72, 114, 0.1);
+    overflow: hidden;
+    margin-bottom: 40px;
+    border: 1px solid var(--border-light);
+}
+
+.tabs-nav {
+    display: flex;
+    background: var(--background-light);
+    border-bottom: 1px solid var(--border-light);
+    overflow-x: auto;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 15px 20px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    min-width: 200px;
+}
+
+.tab-btn:hover {
+    background: rgba(86, 202, 201, 0.1);
+    color: var(--primary-light);
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-medium) 100%);
+    color: var(--text-light);
+}
+
+.tab-btn i {
+    font-size: 20px;
+}
+
+.tabs-content {
+    padding: 0;
+}
+
+.tab-content {
+    display: none;
+    padding: 30px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.guide-card {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.guide-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border-light);
+}
+
+.guide-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Ícones com cores da marca */
+.guide-icon.provas { 
+    background: linear-gradient(135deg, var(--primary-medium) 0%, var(--primary-light) 100%); 
+}
+.guide-icon.aulas { 
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-medium) 100%); 
+}
+.guide-icon.redacoes { 
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-medium) 100%); 
+}
+.guide-icon.aee { 
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-dark) 100%); 
+}
+.guide-icon.treinamento { 
+    background: linear-gradient(135deg, var(--primary-medium) 0%, var(--primary-dark) 100%); 
+}
+
+.guide-icon i {
+    font-size: 32px;
+}
+
+.guide-title h3 {
+    margin: 0 0 5px 0;
+    font-size: 24px;
+    color: var(--primary-dark);
+}
+
+.guide-title span {
+    color: #666;
+    font-size: 16px;
+}
+
+.guide-content {
+    display: grid;
+    gap: 30px;
+}
+
+.steps-section, .features-section, .tips-section {
+    background: var(--background-light);
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid var(--border-light);
+}
+
+.steps-section h4, .features-section h4, .tips-section h4 {
+    margin: 0 0 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary-dark);
+    font-size: 18px;
+}
+
+.steps-section h4 i, .features-section h4 i, .tips-section h4 i {
+    color: var(--primary-light);
+}
+
+.steps-list {
+    margin: 0;
+    padding-left: 20px;
+    color: #555;
+}
+
+.steps-list li {
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.steps-list strong {
+    color: var(--primary-medium);
+}
+
+.features-list, .tips-list {
+    margin: 0;
+    padding-left: 20px;
+    color: #555;
+}
+
+.features-list li, .tips-list li {
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.action-section {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.btn-guide {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-medium) 100%);
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(43, 72, 114, 0.2);
+    min-width: 200px;
+    text-align: center;
+}
+
+.btn-guide:hover {
+    background: linear-gradient(135deg, var(--primary-medium) 0%, var(--primary-light) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(43, 72, 114, 0.3);
+    color: var(--text-light);
+    text-decoration: none;
+}
+
+.btn-guide i {
+    font-size: 18px;
+}
+
+.resources-section {
+    background: var(--text-light);
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(43, 72, 114, 0.1);
+    padding: 30px;
+    border: 1px solid var(--border-light);
+}
+
+.resources-section h3 {
+    margin: 0 0 25px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--primary-dark);
+}
+
+.resources-section h3 i {
+    color: var(--primary-light);
+}
+
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.resource-card {
+    text-align: center;
+    padding: 25px;
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background: var(--background-light);
+}
+
+.resource-card:hover {
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(86, 202, 201, 0.2);
+}
+
+.resource-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-medium) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    box-shadow: 0 4px 15px rgba(86, 202, 201, 0.2);
+}
+
+.resource-icon i {
+    font-size: 28px;
+    color: var(--text-light);
+}
+
+.resource-card h4 {
+    margin: 0 0 10px 0;
+    color: var(--primary-dark);
+}
+
+.resource-card p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    .tabs-nav {
+        flex-direction: column;
+    }
+    
+    .tab-btn {
+        min-width: auto;
+    }
+    
+    .guide-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .resources-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}

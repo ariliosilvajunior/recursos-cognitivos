@@ -1,0 +1,567 @@
+{% extends "base.html" %}
+
+{% block title %}Correção de Redações - Recursos Cognitivos{% endblock %}
+
+{% block mode_icon %}spellcheck{% endblock %}
+{% block mode_text %}Correção de Redações: Análise detalhada da Competência 1 (Norma Culta){% endblock %}
+
+{% block extra_css %}
+<style>
+    .upload-section {
+        background: #FFFFFF;
+        border-radius: 20px;
+        padding: 3rem;
+        text-align: center;
+        box-shadow: 0 10px 40px rgba(43, 72, 114, 0.15);
+        margin-bottom: 2rem;
+        border: 2px solid #56CAC9;
+    }
+
+    .upload-icon {
+        font-size: 4rem;
+        color: #56CAC9;
+        margin-bottom: 1rem;
+    }
+
+    .upload-title {
+        font-size: 1.8rem;
+        color: #2B4872;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+
+    .upload-subtitle {
+        color: #3E69B7;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+
+    .file-input-wrapper {
+        position: relative;
+        display: inline-block;
+        margin: 1rem 0;
+    }
+
+    .file-input {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    .file-input-button {
+        background: #56CAC9;
+        color: #FFFFFF;
+        padding: 1.2rem 2.5rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-weight: 600;
+    }
+
+    .file-input-button:hover {
+        background: #3E69B7;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(86, 202, 201, 0.4);
+    }
+
+    .submit-btn {
+        background: #2B4872;
+        color: #FFFFFF;
+        padding: 1.2rem 3rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 1.5rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .submit-btn:hover {
+        background: #3E69B7;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(43, 72, 114, 0.4);
+    }
+
+    .results-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .card {
+        background: #FFFFFF;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 10px 40px rgba(43, 72, 114, 0.1);
+        border: 1px solid rgba(86, 202, 201, 0.2);
+    }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #56CAC9;
+    }
+
+    .card-icon {
+        font-size: 1.8rem;
+        color: #56CAC9;
+    }
+
+    .card-title {
+        font-size: 1.4rem;
+        color: #2B4872;
+        font-weight: 600;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #56CAC9, #3E69B7);
+        border-radius: 15px;
+        color: #FFFFFF;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+
+    .competencia-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        background: #2B4872;
+        color: #FFFFFF;
+        padding: 1rem 2rem;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+
+    .error-category {
+        margin-bottom: 2rem;
+        border: 2px solid #56CAC9;
+        border-radius: 15px;
+        overflow: hidden;
+        background: #FFFFFF;
+    }
+
+    .category-header {
+        background: #2B4872;
+        color: #FFFFFF;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .category-header.ortografia {
+        background: linear-gradient(135deg, #2B4872, #3E69B7);
+    }
+
+    .category-header.concordancia {
+        background: linear-gradient(135deg, #3E69B7, #56CAC9);
+    }
+
+    .category-header.gramatica {
+        background: linear-gradient(135deg, #56CAC9, #2B4872);
+    }
+
+    .category-title {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+
+    .category-count {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .error-list {
+        padding: 2rem;
+        background: #FFFFFF;
+    }
+
+    .error-item {
+        background: #FFFFFF;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid #56CAC9;
+        box-shadow: 0 4px 15px rgba(43, 72, 114, 0.08);
+        position: relative;
+    }
+
+    .error-item::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: #56CAC9;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .error-context {
+        font-weight: 700;
+        color: #2B4872;
+        margin-bottom: 0.8rem;
+        font-size: 1.1rem;
+        background: rgba(86, 202, 201, 0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        border-left: 4px solid #56CAC9;
+    }
+
+    .error-message {
+        color: #3E69B7;
+        font-size: 1rem;
+        line-height: 1.6;
+        font-weight: 500;
+    }
+
+    .text-display {
+        grid-column: 1 / -1;
+        background: #FFFFFF;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 10px 40px rgba(43, 72, 114, 0.1);
+        border: 2px solid #56CAC9;
+    }
+
+    .text-content {
+        background: #FFFFFF;
+        padding: 2rem;
+        border-radius: 15px;
+        font-family: 'Georgia', serif;
+        line-height: 1.8;
+        font-size: 1.1rem;
+        color: #2B4872;
+        white-space: pre-wrap;
+        max-height: 500px;
+        overflow-y: auto;
+        border: 1px solid rgba(86, 202, 201, 0.3);
+    }
+
+    .download-section {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .download-btn {
+        background: #56CAC9;
+        color: #FFFFFF;
+        padding: 1.2rem 3rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-weight: 600;
+    }
+
+    .download-btn:hover {
+        background: #2B4872;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(86, 202, 201, 0.4);
+    }
+
+    .message-box {
+        background: rgba(86, 202, 201, 0.1);
+        color: #2B4872;
+        padding: 1.5rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        border: 2px solid #56CAC9;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .info-box {
+        background: rgba(62, 105, 183, 0.1);
+        border: 2px solid #3E69B7;
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        color: #2B4872;
+    }
+
+    .info-box h3 {
+        color: #3E69B7;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .results-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .upload-section {
+            padding: 2rem 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Upload Section -->
+{% if not linhas %}
+<div class="upload-section">
+    <i class="fas fa-file-pdf upload-icon"></i>
+    <h2 class="upload-title">📝 Correção Automática de Redações</h2>
+    <p class="upload-subtitle">
+        Envie sua redação em PDF para análise detalhada da <strong>Competência 1 (Domínio da Norma Culta)</strong><br>
+        <em>Funciona com PDFs de texto digital</em>
+    </p>
+    
+    <div class="info-box">
+        <h3><i class="fas fa-info-circle"></i> Como funciona:</h3>
+        <ul style="text-align: left; margin-left: 2rem;">
+            <li><strong>Análise automática:</strong> Detecta erros de ortografia, concordância e gramática</li>
+            <li><strong>Relatório detalhado:</strong> Cada erro explicado com contexto e dicas</li>
+            <li><strong>Pontuação ENEM:</strong> Avaliação baseada nos critérios oficiais</li>
+        </ul>
+    </div>
+    
+    <form method="POST" enctype="multipart/form-data">
+        <div class="file-input-wrapper">
+            <input type="file" name="file" class="file-input" required accept=".pdf">
+            <button type="button" class="file-input-button">
+                <i class="fas fa-upload"></i>
+                Selecionar Arquivo PDF
+            </button>
+        </div>
+        <br>
+        <button type="submit" class="submit-btn">
+            <i class="fas fa-check-circle"></i>
+            Iniciar Correção Detalhada
+        </button>
+    </form>
+</div>
+{% endif %}
+
+<!-- Error Message -->
+{% if mensagem %}
+<div class="message-box">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span>{{ mensagem }}</span>
+</div>
+{% endif %}
+
+<!-- Results Section -->
+{% if linhas %}
+<div class="results-grid">
+    <!-- Statistics Card -->
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-chart-bar card-icon"></i>
+            <h3 class="card-title">Análise Geral</h3>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">{{ linhas }}</div>
+                <div class="stat-label">Linhas Analisadas</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ total_erros }}</div>
+                <div class="stat-label">Erros Encontrados</div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <div class="competencia-badge">
+                <i class="fas fa-medal"></i>
+                Competência 1: Nível {{ comp1[0] }} ({{ comp1[1] }} pontos)
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Summary Card -->
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-exclamation-circle card-icon"></i>
+            <h3 class="card-title">Distribuição dos Erros</h3>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">{{ categorias['ortografia'] | length }}</div>
+                <div class="stat-label">Ortografia</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ categorias['concordancia'] | length }}</div>
+                <div class="stat-label">Concordância</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ categorias['gramatica'] | length }}</div>
+                <div class="stat-label">Gramática</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Detailed Errors Section -->
+<div class="card" style="margin-bottom: 2rem;">
+    <div class="card-header">
+        <i class="fas fa-list-alt card-icon"></i>
+        <h3 class="card-title">Análise Detalhada - Cada Erro Explicado</h3>
+    </div>
+
+    <!-- Ortografia -->
+    {% if categorias['ortografia'] %}
+    <div class="error-category">
+        <div class="category-header ortografia">
+            <div class="category-title">
+                <i class="fas fa-spell-check"></i>
+                Erros de Ortografia
+            </div>
+            <div class="category-count">{{ categorias['ortografia'] | length }} erro(s)</div>
+        </div>
+        <div class="error-list">
+            {% for erro in categorias['ortografia'] %}
+            <div class="error-item">
+                <div class="error-context">
+                    <i class="fas fa-quote-left"></i> {{ erro.context }}
+                </div>
+                <div class="error-message">
+                    <i class="fas fa-info-circle"></i> {{ erro.message }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Concordância -->
+    {% if categorias['concordancia'] %}
+    <div class="error-category">
+        <div class="category-header concordancia">
+            <div class="category-title">
+                <i class="fas fa-balance-scale"></i>
+                Erros de Concordância
+            </div>
+            <div class="category-count">{{ categorias['concordancia'] | length }} erro(s)</div>
+        </div>
+        <div class="error-list">
+            {% for erro in categorias['concordancia'] %}
+            <div class="error-item">
+                <div class="error-context">
+                    <i class="fas fa-quote-left"></i> {{ erro.context }}
+                </div>
+                <div class="error-message">
+                    <i class="fas fa-info-circle"></i> {{ erro.message }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Gramática -->
+    {% if categorias['gramatica'] %}
+    <div class="error-category">
+        <div class="category-header gramatica">
+            <div class="category-title">
+                <i class="fas fa-grammar"></i>
+                Outros Erros Gramaticais
+            </div>
+            <div class="category-count">{{ categorias['gramatica'] | length }} erro(s)</div>
+        </div>
+        <div class="error-list">
+            {% for erro in categorias['gramatica'] %}
+            <div class="error-item">
+                <div class="error-context">
+                    <i class="fas fa-quote-left"></i> {{ erro.context }}
+                </div>
+                <div class="error-message">
+                    <i class="fas fa-info-circle"></i> {{ erro.message }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Text Display -->
+<div class="text-display">
+    <div class="card-header">
+        <i class="fas fa-file-alt card-icon"></i>
+        <h3 class="card-title">Texto Original Analisado</h3>
+    </div>
+    <div class="text-content">{{ texto }}</div>
+</div>
+
+<!-- Download Section -->
+<div class="download-section">
+    <form action="{{ url_for('download_pdf') }}" method="POST">
+        <input type="hidden" name="texto" value="{{ texto }}">
+        <input type="hidden" name="erros" value="{{ erros }}">
+        <input type="hidden" name="categorias" value="{{ categorias }}">
+        <input type="hidden" name="dicas" value="{{ dicas }}">
+        <input type="hidden" name="comp1" value="{{ comp1 }}">
+        <button type="submit" class="download-btn">
+            <i class="fas fa-download"></i>
+            Baixar Relatório Completo (PDF)
+        </button>
+    </form>
+</div>
+{% endif %}
+
+<script>
+// File input enhancement
+document.querySelector('.file-input')?.addEventListener('change', function(e) {
+    const fileName = e.target.files[0]?.name;
+    if (fileName) {
+        document.querySelector('.file-input-button').innerHTML =
+            '<i class="fas fa-check"></i> ' + fileName;
+        document.querySelector('.file-input-button').style.background = '#2B4872';
+    }
+});
+</script>
+{% endblock %}

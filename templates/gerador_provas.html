@@ -1,0 +1,511 @@
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tipos_questao" value="Dissertativa">
+                                <span>Dissertativa</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tipos_questao" value="Lacunas">
+                                <span>Preencher Lacunas</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conteúdo -->
+            <div class="form-section">
+                <h3><i class="material-icons">topic</i> Conteúdo</h3>
+                <div class="form-group">
+                    <label for="topicos_conteudos">Tópicos/Conteúdos a Abordar *</label>
+                    <textarea id="topicos_conteudos" name="topicos_conteudos" rows="4" placeholder="Descreva os tópicos que devem ser cobrados na prova..." required></textarea>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="dificuldade">Nível de Dificuldade</label>
+                        <select id="dificuldade" name="dificuldade">
+                            <option value="Fácil">Fácil</option>
+                            <option value="Médio" selected>Médio</option>
+                            <option value="Difícil">Difícil</option>
+                            <option value="Balanceado">Balanceado (Misto)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bncc_alignment">Alinhamento BNCC</label>
+                        <select id="bncc_alignment" name="bncc_alignment">
+                            <option value="Sim">Sim, alinhar com BNCC</option>
+                            <option value="Não">Não necessário</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botões de Ação -->
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">
+                    <i class="material-icons">auto_awesome</i>
+                    Gerar Prompt de Prova
+                </button>
+                <button type="reset" class="btn-secondary">
+                    <i class="material-icons">refresh</i>
+                    Limpar Formulário
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Resultado do Prompt -->
+    <div id="promptResult" class="result-section" style="display: none;">
+        <h3><i class="material-icons">description</i> Prompt Gerado</h3>
+        <div class="prompt-container">
+            <textarea id="promptText" readonly></textarea>
+            <div class="prompt-actions">
+                <button id="copyPrompt" class="btn-copy">
+                    <i class="material-icons">content_copy</i>
+                    Copiar Prompt
+                </button>
+            </div>
+        </div>
+        
+        <div class="next-steps">
+            <h4><i class="material-icons">lightbulb</i> Próximos Passos:</h4>
+            <ol>
+                <li>Copie o prompt acima</li>
+                <li>Cole em uma IA (ChatGPT, Claude, Gemini, etc.)</li>
+                <li>Copie a resposta da IA</li>
+                <li>Cole na área abaixo para processar</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Processamento da Resposta IA -->
+    <div id="iaResponse" class="response-section" style="display: none;">
+        <h3><i class="material-icons">smart_toy</i> Processar Resposta da IA</h3>
+        <div class="form-group">
+            <label for="respostaIA">Cole aqui a resposta completa da IA:</label>
+            <textarea id="respostaIA" rows="10" placeholder="Cole aqui a resposta da IA..."></textarea>
+        </div>
+        <button id="processarResposta" class="btn-primary">
+            <i class="material-icons">settings</i>
+            Processar e Separar Conteúdo
+        </button>
+    </div>
+
+    <!-- Resultado Final -->
+    <div id="finalResult" class="final-section" style="display: none;">
+        <div class="result-tabs">
+            <button class="tab-btn active" data-tab="prova">
+                <i class="material-icons">quiz</i>
+                Prova
+            </button>
+            <button class="tab-btn" data-tab="gabarito">
+                <i class="material-icons">fact_check</i>
+                Gabarito
+            </button>
+        </div>
+        
+        <div class="tab-content active" id="prova">
+            <div class="content-header">
+                <h4>Prova Gerada</h4>
+                <div class="content-actions">
+                    <button id="downloadProva" class="btn-download">
+                        <i class="material-icons">download</i>
+                        Download
+                    </button>
+                </div>
+            </div>
+            <div id="provaContent" class="content-display"></div>
+        </div>
+        
+        <div class="tab-content" id="gabarito">
+            <div class="content-header">
+                <h4>Gabarito</h4>
+                <div class="content-actions">
+                    <button id="downloadGabarito" class="btn-download">
+                        <i class="material-icons">download</i>
+                        Download
+                    </button>
+                </div>
+            </div>
+            <div id="gabaritoContent" class="content-display"></div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('provaForm');
+    const promptResult = document.getElementById('promptResult');
+    const iaResponse = document.getElementById('iaResponse');
+    const finalResult = document.getElementById('finalResult');
+    
+    // Gerar prompt
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        
+        // Coletar checkboxes
+        const tiposQuestao = Array.from(document.querySelectorAll('input[name="tipos_questao"]:checked')).map(cb => cb.value);
+        data.tipos_questao = tiposQuestao;
+        
+        try {
+            const response = await fetch('/api/gerar-prompt-prova', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                document.getElementById('promptText').value = result.prompt;
+                promptResult.style.display = 'block';
+                iaResponse.style.display = 'block';
+                promptResult.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert('Erro: ' + result.error);
+            }
+        } catch (error) {
+            alert('Erro ao gerar prompt: ' + error.message);
+        }
+    });
+    
+    // Copiar prompt
+    document.getElementById('copyPrompt').addEventListener('click', function() {
+        const promptText = document.getElementById('promptText');
+        promptText.select();
+        document.execCommand('copy');
+        
+        this.innerHTML = '<i class="material-icons">check</i> Copiado!';
+        setTimeout(() => {
+            this.innerHTML = '<i class="material-icons">content_copy</i> Copiar Prompt';
+        }, 2000);
+    });
+    
+    // Processar resposta IA
+    document.getElementById('processarResposta').addEventListener('click', async function() {
+        const respostaIA = document.getElementById('respostaIA').value.trim();
+        
+        if (!respostaIA) {
+            alert('Por favor, cole a resposta da IA antes de processar.');
+            return;
+        }
+        
+        try {
+            const response = await fetch('/api/processar-resposta-ia', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ resposta: respostaIA })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                document.getElementById('provaContent').innerHTML = result.prova.replace(/\n/g, '<br>');
+                document.getElementById('gabaritoContent').innerHTML = result.gabarito.replace(/\n/g, '<br>');
+                
+                finalResult.style.display = 'block';
+                finalResult.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert('Erro: ' + result.error);
+            }
+        } catch (error) {
+            alert('Erro ao processar resposta: ' + error.message);
+        }
+    });
+    
+    // Navegação das abas
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const targetTab = this.getAttribute('data-tab');
+            
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            this.classList.add('active');
+            document.getElementById(targetTab).classList.add('active');
+        });
+    });
+    
+    // Downloads
+    document.getElementById('downloadProva').addEventListener('click', function() {
+        const conteudo = document.getElementById('provaContent').innerText;
+        const url = `/api/download/prova?conteudo=${encodeURIComponent(conteudo)}`;
+        window.open(url, '_blank');
+    });
+    
+    document.getElementById('downloadGabarito').addEventListener('click', function() {
+        const conteudo = document.getElementById('gabaritoContent').innerText;
+        const url = `/api/download/gabarito?conteudo=${encodeURIComponent(conteudo)}`;
+        window.open(url, '_blank');
+    });
+});
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+:root {
+    --primary-dark: #2B4872;
+    --primary-light: #56CAC9;
+    --primary-medium: #3E69B7;
+    --text-dark: #000000;
+    --text-light: #FFFFFF;
+    --background-light: #f8f9ff;
+    --border-light: #e8ecf5;
+}
+
+.intro-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.intro-section h2 {
+    color: var(--primary-dark);
+    margin-bottom: 15px;
+}
+
+.intro-text {
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.form-container {
+    background: var(--text-light);
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(43, 72, 114, 0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.form-section {
+    margin-bottom: 30px;
+}
+
+.form-section h3 {
+    color: var(--primary-dark);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-section h3 i {
+    color: var(--primary-light);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--primary-dark);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 12px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-light);
+}
+
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.btn-primary, .btn-secondary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-medium) 100%);
+    color: var(--text-light);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(43, 72, 114, 0.3);
+}
+
+.btn-secondary {
+    background: var(--background-light);
+    color: var(--primary-dark);
+    border: 1px solid var(--border-light);
+}
+
+.result-section, .response-section, .final-section {
+    background: var(--text-light);
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(43, 72, 114, 0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.prompt-container textarea {
+    width: 100%;
+    height: 200px;
+    padding: 15px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 14px;
+    resize: vertical;
+}
+
+.prompt-actions {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.btn-copy, .btn-download {
+    background: var(--primary-light);
+    color: var(--text-light);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s;
+}
+
+.btn-copy:hover, .btn-download:hover {
+    background: var(--primary-medium);
+    transform: translateY(-1px);
+}
+
+.next-steps {
+    margin-top: 25px;
+    padding: 20px;
+    background: var(--background-light);
+    border-radius: 8px;
+}
+
+.next-steps h4 {
+    color: var(--primary-dark);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.next-steps ol {
+    color: #666;
+    line-height: 1.6;
+}
+
+.result-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    padding: 12px 20px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    transition: all 0.3s;
+}
+
+.tab-btn.active {
+    color: var(--primary-dark);
+    border-bottom: 2px solid var(--primary-light);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.content-display {
+    background: var(--background-light);
+    padding: 20px;
+    border-radius: 8px;
+    line-height: 1.6;
+    min-height: 200px;
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .content-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Recursos Cognitivos{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header class="header">
+        <h1><i class="material-icons">school</i> Recursos Cognitivos</h1>
+        <nav class="nav-bar">
+            <a href="{{ url_for('index') }}" class="nav-btn">
+                <i class="material-icons">home</i> Início
+            </a>
+            <a href="{{ url_for('gerador_provas') }}" class="nav-btn">
+                <i class="material-icons">description</i> Gerador de Provas
+            </a>
+            <a href="{{ url_for('planejador_aulas') }}" class="nav-btn">
+                <i class="material-icons">cast_for_education</i> Planejador de Aulas
+            </a>
+            <a href="{{ url_for('correcao_redacoes') }}" class="nav-btn">
+                <i class="material-icons">spellcheck</i> Correção de Redações
+            </a>
+            <a href="{{ url_for('adaptacao_aee') }}" class="nav-btn">
+                <i class="material-icons">accessibility</i> Adaptação AEE
+            </a>
+            <a href="{{ url_for('guia_rapido') }}" class="nav-btn">
+                <i class="material-icons">menu_book</i> Guia Rápido
+            </a>
+        </nav>
+    </header>
+
+    <!-- Área de Modo Dinâmico -->
+    <div class="mode-display" id="mode-display">
+        <i class="material-icons" id="mode-icon">{% block mode_icon %}home{% endblock %}</i>
+        <span id="mode-text">{% block mode_text %}Recursos Cognitivos - Ferramentas de IA para Educação{% endblock %}</span>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="footer">
+        <p>&copy; 2025 Recursos Cognitivos. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Scripts comuns -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raciocínio Lógico - Recursos Cognitivos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2B4872;
+            --secondary-color: #56CAC9;
+            --accent-color: #F4A261;
+            --success-color: #2A9D8F;
+            --danger-color: #E76F51;
+            --background-color: #F8F9FA;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(43, 72, 114, 0.4);
+        }
+        
+        .game-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .sequence-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .sequence-item {
+            width: 80px;
+            height: 80px;
+            background: var(--secondary-color);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .sequence-item.missing {
+            background: var(--background-color);
+            border: 3px dashed var(--accent-color);
+            color: var(--accent-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .sequence-item.missing:hover {
+            background: var(--accent-color);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        
+        .option-item {
+            width: 80px;
+            height: 80px;
+            background: var(--accent-color);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 auto;
+        }
+        
+        .option-item:hover {
+            background: var(--primary-color);
+            transform: scale(1.1);
+        }
+        
+        .option-item.correct {
+            background: var(--success-color);
+            transform: scale(1.2);
+        }
+        
+        .option-item.incorrect {
+            background: var(--danger-color);
+            transform: scale(0.9);
+        }
+        
+        .sudoku-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            max-width: 300px;
+            margin: 20px auto;
+            background: var(--primary-color);
+            padding: 10px;
+            border-radius: 15px;
+        }
+        
+        .sudoku-cell {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border: 2px solid var(--secondary-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .sudoku-cell:hover {
+            background: var(--background-color);
+            transform: scale(1.05);
+        }
+        
+        .sudoku-cell.filled {
+            background: var(--secondary-color);
+            color: white;
+            cursor: default;
+        }
+        
+        .sudoku-cell.selected {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .logic-problem {
+            background: linear-gradient(135deg, var(--background-color), white);
+            border: 2px solid var(--secondary-color);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .answer-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .answer-option {
+            background: white;
+            border: 2px solid var(--secondary-color);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .answer-option:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .answer-option.correct {
+            background: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
+        }
+        
+        .answer-option.incorrect {
+            background: var(--danger-color);
+            color: white;
+            border-color: var(--danger-color);
+        }
+        
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+        
+        .pattern-cell {
+            aspect-ratio: 1;
+            border: 3px solid var(--secondary-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        
+        .pattern-cell.missing {
+            background: var(--background-color);
+            border-style: dashed;
+            color: var(--accent-color);
+            cursor: pointer;
+        }
+        
+        .pattern-cell.missing:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-brain me-2"></i>Recursos Cognitivos
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/raciocinio-logico">Raciocínio Lógico</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold" style="color: var(--primary-color);">
+                        <i class="fas fa-puzzle-piece me-3"></i>Raciocínio Lógico
+                    </h1>
+                    <p class="lead text-muted">Desenvolva seu pensamento lógico e analítico</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sequências Lógicas -->
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="game-card">
+                    <h3 class="text-center mb-4" style="color: var(--primary-color);">
+                        <i class="fas fa-sort-numeric-up me-2"></i>Sequências Lógicas
+                    </h3>
+                    
+                    <div class="text-center mb-4">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Pontuação</h6>
+                                    <span id="pontosSequencia" class="fs-4 fw-bold" style="color: var(--primary-color);">0</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Nível</h6>
+                                    <span id="nivelSequencia" class="fs-4 fw-bold" style="color: var(--accent-color);">1</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Acertos</h6>
+                                    <span id="acertosSequencia" class="fs-4 fw-bold" style="color: var(--success-color);">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mb-3">
+                        <p>Complete a sequência:</p>
+                    </div>
+
+                    <div class="sequence-container" id="sequenceContainer">
+                        <!-- Sequência será gerada pelo JavaScript -->
+                    </div>
+
+                    <div class="options-grid" id="sequenceOptions">
+                        <!-- Opções serão geradas pelo JavaScript -->
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary" onclick="novaSequencia()">
+                            <i class="fas fa-refresh me-2"></i>Nova Sequência
+                        </button>
+                    </div>
+
+                    <div id="resultadoSequencia" class="text-center mt-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mini Sudoku 4x4 -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-6">
+                <div class="game-card">
+                    <h3 class="text-center mb-4" style="color: var(--primary-color);">
+                        <i class="fas fa-th me-2"></i>Mini Sudoku 4x4
+                    </h3>
+                    
+                    <div class="text-center mb-4">
+                        <p>Complete o grid com números de 1 a 4. Cada linha e coluna deve ter todos os números!</p>
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Sudokus Resolvidos</h6>
+                                    <span id="sudokusResolvidos" class="fs-4 fw-bold" style="color: var(--success-color);">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sudoku-grid" id="sudokuGrid">
+                        <!-- Grid será gerado pelo JavaScript -->
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-outline-primary" onclick="selecionarNumero(1)">1</button>
+                            <button class="btn btn-outline-primary" onclick="selecionarNumero(2)">2</button>
+                            <button class="btn btn-outline-primary" onclick="selecionarNumero(3)">3</button>
+                            <button class="btn btn-outline-primary" onclick="selecionarNumero(4)">4</button>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <button class="btn btn-primary" onclick="novoSudoku()">
+                            <i class="fas fa-refresh me-2"></i>Novo Sudoku
+                        </button>
+                        <button class="btn btn-success ms-2" onclick="verificarSudoku()">
+                            <i class="fas fa-check me-2"></i>Verificar
+                        </button>
+                    </div>
+
+                    <div id="resultadoSudoku" class="text-center mt-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Problemas Lógicos -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-8">
+                <div class="game-card">
+                    <h3 class="text-center mb-4" style="color: var(--primary-color);">
+                        <i class="fas fa-lightbulb me-2"></i>Problemas Lógicos
+                    </h3>
+                    
+                    <div class="text-center mb-4">
+                        <div class="row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Problemas Resolvidos</h6>
+                                    <span id="problemasResolvidos" class="fs-4 fw-bold" style="color: var(--success-color);">0</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Pontos Lógica</h6>
+                                    <span id="pontosLogica" class="fs-4 fw-bold" style="color: var(--primary-color);">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="logic-problem" id="problemContainer">
+                        <!-- Problema será gerado pelo JavaScript -->
+                    </div>
+
+                    <div class="answer-options" id="answerOptions">
+                        <!-- Opções serão geradas pelo JavaScript -->
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary" onclick="novoProblema()">
+                            <i class="fas fa-refresh me-2"></i>Novo Problema
+                        </button>
+                    </div>
+
+                    <div id="resultadoProblema" class="text-center mt-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Padrões Visuais -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-6">
+                <div class="game-card">
+                    <h3 class="text-center mb-4" style="color: var(--primary-color);">
+                        <i class="fas fa-shapes me-2"></i>Padrões Visuais
+                    </h3>
+                    
+                    <div class="text-center mb-4">
+                        <p>Identifique o padrão e complete a sequência:</p>
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Padrões Encontrados</h6>
+                                    <span id="padroesEncontrados" class="fs-4 fw-bold" style="color: var(--success-color);">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pattern-grid" id="patternGrid">
+                        <!-- Padrão será gerado pelo JavaScript -->
+                    </div>
+
+                    <div class="options-grid" id="patternOptions">
+                        <!-- Opções serão geradas pelo JavaScript -->
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary" onclick="novoPadrao()">
+                            <i class="fas fa-refresh me-2"></i>Novo Padrão
+                        </button>
+                    </div>
+
+                    <div id="resultadoPadrao" class="text-center mt-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Variáveis globais
+        let pontosSequencia = 0;
+        let nivelSequencia = 1;
+        let acertosSequencia = 0;
+        let sudokusResolvidos = 0;
+        let problemasResolvidos = 0;
+        let pontosLogica = 0;
+        let padroesEncontrados = 0;
+
+        // Sequências Lógicas
+        const tiposSequencia = [
+            { tipo: 'aritmetica', nome: 'Aritmética' },
+            { tipo: 'geometrica', nome: 'Geométrica' },
+            { tipo: 'fibonacci', nome: 'Fibonacci' },
+            { tipo: 'quadrados', nome: 'Quadrados' },
+            { tipo: 'primos', nome: 'Primos' }
+        ];
+
+        let sequenciaAtual = null;
+        let respostaCorreta = null;
+
+        function gerarSequencia() {
+            const tipo = tiposSequencia[Math.floor(Math.random() * tiposSequencia.length)];
+            let sequencia = [];
+            let resposta = 0;
+
+            switch (tipo.tipo) {
+                case 'aritmetica':
+                    const razao = Math.floor(Math.random() * 5) + 2;
+                    const inicio = Math.floor(Math.random() * 10) + 1;
+                    for (let i = 0; i < 4; i++) {
+                        sequencia.push(inicio + (i * razao));
+                    }
+                    resposta = inicio + (4 * razao);
+                    break;
+                case 'geometrica':
+                    const fator = Math.floor(Math.random() * 3) + 2;
+                    const base = Math.floor(Math.random() * 3) + 2;
+                    for (let i = 0; i < 4; i++) {
+                        sequencia.push(base * Math.pow(fator, i));
+                    }
+                    resposta = base * Math.pow(fator, 4);
+                    break;
+
+                case 'fibonacci':
+                    sequencia = [1, 1, 2, 3];
+                    resposta = 5;
+                    break;
+
+                case 'quadrados':
+                    for (let i = 1; i <= 4; i++) {
+                        sequencia.push(i * i);
+                    }
+                    resposta = 25;
+                    break;
+
+                case 'primos':
+                    sequencia = [2, 3, 5, 7];
+                    resposta = 11;
+                    break;
+            }
+
+            return { sequencia, resposta };
+        }
+
+        function novaSequencia() {
+            const resultado = gerarSequencia();
+            sequenciaAtual = resultado.sequencia;
+            respostaCorreta = resultado.resposta;
+
+            // Mostrar sequência
+            const container = document.getElementById('sequenceContainer');
+            container.innerHTML = '';
+
+            sequenciaAtual.forEach(num => {
+                const item = document.createElement('div');
+                item.className = 'sequence-item';
+                item.textContent = num;
+                container.appendChild(item);
+            });
+
+            // Adicionar item faltante
+            const missing = document.createElement('div');
+            missing.className = 'sequence-item missing';
+            missing.textContent = '?';
+            container.appendChild(missing);
+
+            // Gerar opções
+            const opcoes = [respostaCorreta];
+            while (opcoes.length < 4) {
+                const opcao = respostaCorreta + Math.floor(Math.random() * 20) - 10;
+                if (opcao > 0 && !opcoes.includes(opcao)) {
+                    opcoes.push(opcao);
+                }
+            }
+            opcoes.sort(() => Math.random() - 0.5);
+
+            const optionsContainer = document.getElementById('sequenceOptions');
+            optionsContainer.innerHTML = '';
+
+            opcoes.forEach(opcao => {
+                const item = document.createElement('div');
+                item.className = 'option-item';
+                item.textContent = opcao;
+                item.onclick = () => escolherResposta(item, opcao);
+                optionsContainer.appendChild(item);
+            });
+
+            document.getElementById('resultadoSequencia').innerHTML = '';
+        }
+
+        function escolherResposta(elemento, resposta) {
+            const opcoes = document.querySelectorAll('.option-item');
+            opcoes.forEach(opcao => opcao.onclick = null);
+
+            if (resposta === respostaCorreta) {
+                elemento.classList.add('correct');
+                pontosSequencia += nivelSequencia * 10;
+                acertosSequencia++;
+                nivelSequencia = Math.min(nivelSequencia + 1, 10);
+
+                document.getElementById('pontosSequencia').textContent = pontosSequencia;
+                document.getElementById('acertosSequencia').textContent = acertosSequencia;
+                document.getElementById('nivelSequencia').textContent = nivelSequencia;
+
+                document.getElementById('resultadoSequencia').innerHTML = 
+                    '<div class="alert alert-success"><i class="fas fa-check me-2"></i>Correto! Parabéns!</div>';
+            } else {
+                elemento.classList.add('incorrect');
+                nivelSequencia = Math.max(nivelSequencia - 1, 1);
+                document.getElementById('nivelSequencia').textContent = nivelSequencia;
+
+                // Mostrar resposta correta
+                opcoes.forEach(opcao => {
+                    if (parseInt(opcao.textContent) === respostaCorreta) {
+                        opcao.classList.add('correct');
+                    }
+                });
+
+                document.getElementById('resultadoSequencia').innerHTML = 
+                    `<div class="alert alert-danger"><i class="fas fa-times me-2"></i>Incorreto. A resposta era ${respostaCorreta}</div>`;
+            }
+
+            setTimeout(novaSequencia, 3000);
+        }
+
+        // Mini Sudoku 4x4
+        let sudokuGrid = [];
+        let sudokuSolucao = [];
+        let celulasSelecionadas = null;
+
+        function gerarSudoku() {
+            // Gerar solução válida
+            sudokuSolucao = [
+                [1, 2, 3, 4],
+                [3, 4, 1, 2],
+                [2, 3, 4, 1],
+                [4, 1, 2, 3]
+            ];
+
+            // Embaralhar linhas e colunas
+            for (let i = 0; i < 10; i++) {
+                const row1 = Math.floor(Math.random() * 4);
+                const row2 = Math.floor(Math.random() * 4);
+                [sudokuSolucao[row1], sudokuSolucao[row2]] = [sudokuSolucao[row2], sudokuSolucao[row1]];
+            }
+
+            // Criar grid com algumas células vazias
+            sudokuGrid = sudokuSolucao.map(row => [...row]);
+            
+            // Remover alguns números
+            for (let i = 0; i < 8; i++) {
+                const row = Math.floor(Math.random() * 4);
+                const col = Math.floor(Math.random() * 4);
+                sudokuGrid[row][col] = 0;
+            }
+        }
+
+        function novoSudoku() {
+            gerarSudoku();
+            renderizarSudoku();
+            document.getElementById('resultadoSudoku').innerHTML = '';
+        }
+
+        function renderizarSudoku() {
+            const grid = document.getElementById('sudokuGrid');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'sudoku-cell';
+                    cell.dataset.row = i;
+                    cell.dataset.col = j;
+
+                    if (sudokuGrid[i][j] !== 0) {
+                        cell.textContent = sudokuGrid[i][j];
+                        cell.classList.add('filled');
+                    } else {
+                        cell.onclick = () => selecionarCelula(cell, i, j);
+                    }
+
+                    grid.appendChild(cell);
+                }
+            }
+        }
+
+        function selecionarCelula(cell, row, col) {
+            // Remover seleção anterior
+            document.querySelectorAll('.sudoku-cell.selected').forEach(c => c.classList.remove('selected'));
+            
+            cell.classList.add('selected');
+            celulasSelecionadas = { cell, row, col };
+        }
+
+        function selecionarNumero(numero) {
+            if (!celulasSelecionadas) return;
+
+            const { cell, row, col } = celulasSelecionadas;
+            cell.textContent = numero;
+            sudokuGrid[row][col] = numero;
+            
+            cell.classList.remove('selected');
+            celulasSelecionadas = null;
+        }
+
+        function verificarSudoku() {
+            let correto = true;
+
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (sudokuGrid[i][j] !== sudokuSolucao[i][j]) {
+                        correto = false;
+                        break;
+                    }
+                }
+                if (!correto) break;
+            }
+
+            const resultado = document.getElementById('resultadoSudoku');
+            if (correto) {
+                sudokusResolvidos++;
+                document.getElementById('sudokusResolvidos').textContent = sudokusResolvidos;
+                resultado.innerHTML = '<div class="alert alert-success"><i class="fas fa-trophy me-2"></i>Parabéns! Sudoku resolvido!</div>';
+            } else {
+                resultado.innerHTML = '<div class="alert alert-warning"><i class="fas fa-exclamation me-2"></i>Ainda há erros. Continue tentando!</div>';
+            }
+        }
+
+        // Problemas Lógicos
+        const problemas = [
+            {
+                problema: "Se todos os gatos são animais e alguns animais são pretos, então:",
+                opcoes: ["Todos os gatos são pretos", "Alguns gatos podem ser pretos", "Nenhum gato é preto", "Todos os animais são gatos"],
+                correta: 1
+            },
+            {
+                problema: "Em uma corrida, Ana chegou antes de Bruno, mas depois de Carlos. Se Diana chegou antes de Ana, qual a ordem de chegada?",
+                opcoes: ["Carlos, Ana, Bruno, Diana", "Diana, Carlos, Ana, Bruno", "Bruno, Ana, Carlos, Diana", "Carlos, Diana, Ana, Bruno"],
+                correta: 1
+            },
+            {
+                problema: "Se 2 + 2 = 4 e 3 + 3 = 6, então 4 + 4 = ?",
+                opcoes: ["6", "7", "8", "9"],
+                correta: 2
+            },
+            {
+                problema: "João tem 5 anos a mais que Maria. Se a soma das idades é 25, quantos anos tem João?",
+                opcoes: ["10", "12", "15", "20"],
+                correta: 2
+            },
+            {
+                problema: "Se A = 1, B = 2, C = 3... então a palavra 'CASA' vale quanto?",
+                opcoes: ["20", "22", "24", "26"],
+                correta: 1
+            }
+        ];
+
+        let problemaAtual = null;
+
+        function novoProblema() {
+            problemaAtual = problemas[Math.floor(Math.random() * problemas.length)];
+            
+            document.getElementById('problemContainer').textContent = problemaAtual.problema;
+            
+            const optionsContainer = document.getElementById('answerOptions');
+            optionsContainer.innerHTML = '';
+            
+            problemaAtual.opcoes.forEach((opcao, index) => {
+                const div = document.createElement('div');
+                div.className = 'answer-option';
+                div.textContent = opcao;
+                div.onclick = () => responderProblema(div, index);
+                optionsContainer.appendChild(div);
+            });
+            
+            document.getElementById('resultadoProblema').innerHTML = '';
+        }
+
+        function responderProblema(elemento, index) {
+            const opcoes = document.querySelectorAll('.answer-option');
+            opcoes.forEach(opcao => opcao.onclick = null);
+
+            if (index === problemaAtual.correta) {
+                elemento.classList.add('correct');
+                problemasResolvidos++;
+                pontosLogica += 20;
+                document.getElementById('problemasResolvidos').textContent = problemasResolvidos;
+                document.getElementById('pontosLogica').textContent = pontosLogica;
+                
+                document.getElementById('resultadoProblema').innerHTML = 
+                    '<div class="alert alert-success"><i class="fas fa-lightbulb me-2"></i>Excelente raciocínio!</div>';
+            } else {
+                elemento.classList.add('incorrect');
+                opcoes[problemaAtual.correta].classList.add('correct');
+                
+                document.getElementById('resultadoProblema').innerHTML = 
+                    '<div class="alert alert-danger"><i class="fas fa-times me-2"></i>Resposta incorreta. Tente novamente!</div>';
+            }
+
+            setTimeout(novoProblema, 3000);
+        }
+
+        // Padrões Visuais
+        const padroes = [
+            { sequencia: ['🔴', '🔵', '🔴', '🔵'], resposta: '🔴' },
+            { sequencia: ['⭐', '⭐', '🌙', '⭐'], resposta: '⭐' },
+            { sequencia: ['🔺', '🔻', '🔺', '🔻'], resposta: '🔺' },
+            { sequencia: ['❤️', '💙', '💚', '❤️'], resposta: '💙' },
+            { sequencia: ['🟦', '🟨', '🟦', '🟨'], resposta: '🟦' }
+        ];
+
+        let padraoAtual = null;
+
+        function novoPadrao() {
+            padraoAtual = padroes[Math.floor(Math.random() * padroes.length)];
+            
+            const grid = document.getElementById('patternGrid');
+            grid.innerHTML = '';
+            
+            // Mostrar sequência com último item faltando
+            for (let i = 0; i < padraoAtual.sequencia.length; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'pattern-cell';
+                cell.textContent = padraoAtual.sequencia[i];
+                grid.appendChild(cell);
+            }
+            
+            // Adicionar célula faltante
+            const missingCell = document.createElement('div');
+            missingCell.className = 'pattern-cell missing';
+            missingCell.textContent = '?';
+            grid.appendChild(missingCell);
+            
+            // Gerar opções
+            const opcoes = [padraoAtual.resposta, '🔶', '🔸', '⚫'];
+            const opcoesUnicas = [...new Set(opcoes)];
+            while (opcoesUnicas.length < 4) {
+                const extras = ['🟢', '🟣', '🟠', '⚪', '🔷'];
+                const extra = extras[Math.floor(Math.random() * extras.length)];
+                if (!opcoesUnicas.includes(extra)) {
+                    opcoesUnicas.push(extra);
+                }
+            }
+            opcoesUnicas.sort(() => Math.random() - 0.5);
+            
+            const optionsContainer = document.getElementById('patternOptions');
+            optionsContainer.innerHTML = '';
+            
+            opcoesUnicas.forEach(opcao => {
+                const item = document.createElement('div');
+                item.className = 'option-item';
+                item.textContent = opcao;
+                item.onclick = () => escolherPadrao(item, opcao);
+                optionsContainer.appendChild(item);
+            });
+            
+            document.getElementById('resultadoPadrao').innerHTML = '';
+        }
+
+        function escolherPadrao(elemento, resposta) {
+            const opcoes = document.querySelectorAll('#patternOptions .option-item');
+            opcoes.forEach(opcao => opcao.onclick = null);
+
+            if (resposta === padraoAtual.resposta) {
+                elemento.classList.add('correct');
+                padroesEncontrados++;
+                document.getElementById('padroesEncontrados').textContent = padroesEncontrados;
+                
+                document.getElementById('resultadoPadrao').innerHTML = 
+                    '<div class="alert alert-success"><i class="fas fa-eye me-2"></i>Padrão identificado corretamente!</div>';
+            } else {
+                elemento.classList.add('incorrect');
+                opcoes.forEach(opcao => {
+                    if (opcao.textContent === padraoAtual.resposta) {
+                        opcao.classList.add('correct');
+                    }
+                });
+                
+                document.getElementById('resultadoPadrao').innerHTML = 
+                    '<div class="alert alert-danger"><i class="fas fa-times me-2"></i>Padrão incorreto. A resposta era ' + padraoAtual.resposta + '</div>';
+            }
+
+            setTimeout(novoPadrao, 3000);
+        }
+
+        // Inicializar jogos
+        window.onload = function() {
+            novaSequencia();
+            novoSudoku();
+            novoProblema();
+            novoPadrao();
+        };
+    </script>
+</body>
+</html>

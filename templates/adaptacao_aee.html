@@ -1,0 +1,443 @@
+{% extends "recursos_cognitivos_base.html" %}
+
+{% block title %}Adaptação AEE - Recursos Cognitivos{% endblock %}
+
+{% block header_title %}Adaptação AEE{% endblock %}
+
+{% block mode_text %}Modo AEE: Crie adaptações para Atendimento Educacional Especializado.{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h2><i class="material-icons">accessible</i> Adaptação para AEE</h2>
+    
+    <!-- Seleção da IA -->
+    <div class="field-group">
+        <h3><i class="material-icons">smart_toy</i> Seleção da(s) IA(s)</h3>
+        <label for="aee-ia-selecionada">IA(s) que pretende usar (selecione uma ou mais):*</label>
+        <select id="aee-ia-selecionada" class="form-control" multiple>
+            <optgroup label="IAs de Texto">
+                <option value="ChatGPT">ChatGPT</option>
+                <option value="Google Bard">Google Bard</option>
+                <option value="Claude">Claude</option>
+                <option value="Outra (Texto)">Outra (Texto)</option>
+            </optgroup>
+            <optgroup label="IAs de Imagem">
+                <option value="DALL-E">DALL-E</option>
+                <option value="Midjourney">Midjourney</option>
+                <option value="Stable Diffusion">Stable Diffusion</option>
+                <option value="Outra (Imagem)">Outra (Imagem)</option>
+            </optgroup>
+            <optgroup label="IAs de Áudio">
+                <option value="ElevenLabs">ElevenLabs (Voz)</option>
+                <option value="AIVA">AIVA (Música)</option>
+                <option value="Outra (Áudio)">Outra (Áudio)</option>
+            </optgroup>
+        </select>
+        <div class="field-hint">Selecione a(s) IA(s) para otimizar o prompt.</div>
+    </div>
+
+    <form class="form" id="form-aee">
+        <!-- Dados do Estudante -->
+        <div class="field-group">
+            <h3><i class="material-icons">person</i> Dados do Estudante</h3>
+            
+            <label for="aee-escola">Escola:</label>
+            <input type="text" id="aee-escola" placeholder="Nome da escola">
+            <div class="field-hint">Nome da instituição de ensino.</div>
+            
+            <label for="aee-professor">Professor AEE:</label>
+            <input type="text" id="aee-professor" placeholder="Nome do professor especializado">
+            <div class="field-hint">Nome do educador responsável pelo AEE.</div>
+            
+            <label for="aee-estudante">Nome do Estudante:</label>
+            <input type="text" id="aee-estudante" placeholder="Nome do aluno (opcional)">
+            <div class="field-hint">Identificação do estudante (pode ser omitido).</div>
+            
+            <label for="aee-idade">Idade/Série:*</label>
+            <input type="text" id="aee-idade" placeholder="Ex: 8 anos / 3º ano">
+            <div class="field-hint">Idade e/ou série do estudante.</div>
+            
+            <label for="aee-deficiencia">Tipo de Deficiência/Necessidade:*</label>
+            <select id="aee-deficiencia" class="form-control">
+                <option value="" selected disabled>Selecione a necessidade</option>
+                <option value="Deficiência Intelectual">Deficiência Intelectual</option>
+                <option value="Autismo/TEA">Autismo/TEA</option>
+                <option value="Deficiência Visual">Deficiência Visual</option>
+                <option value="Deficiência Auditiva/Surdez">Deficiência Auditiva/Surdez</option>
+                <option value="Deficiência Física/Motora">Deficiência Física/Motora</option>
+                <option value="TDAH">TDAH</option>
+                <option value="Dislexia">Dislexia</option>
+                <option value="Discalculia">Discalculia</option>
+                <option value="Síndrome de Down">Síndrome de Down</option>
+                <option value="Altas Habilidades/Superdotação">Altas Habilidades/Superdotação</option>
+                <option value="Múltiplas Deficiências">Múltiplas Deficiências</option>
+                <option value="Outra">Outra</option>
+            </select>
+            <div class="field-hint">Principal necessidade educacional especial.</div>
+            
+            <label for="aee-caracteristicas">Características Específicas:*</label>
+            <textarea id="aee-caracteristicas" rows="4" placeholder="Descreva as características, limitações e potencialidades do estudante..."></textarea>
+            <div class="field-hint">Detalhes sobre o perfil do estudante.</div>
+        </div>
+
+        <!-- Material Original -->
+        <div class="field-group">
+            <h3><i class="material-icons">library_books</i> Material a ser Adaptado</h3>
+            
+            <label for="aee-disciplina">Disciplina:*</label>
+            <select id="aee-disciplina" class="form-control">
+                <option value="" selected disabled>Selecione a disciplina</option>
+                <option value="Matemática">Matemática</option>
+                <option value="Português">Português</option>
+                <option value="História">História</option>
+                <option value="Geografia">Geografia</option>
+                <option value="Ciências">Ciências</option>
+                <option value="Biologia">Biologia</option>
+                <option value="Física">Física</option>
+                <option value="Química">Química</option>
+                <option value="Artes">Artes</option>
+                <option value="Educação Física">Educação Física</option>
+                <option value="Filosofia">Filosofia</option>
+                <option value="Sociologia">Sociologia</option>
+                <option value="Inglês">Inglês</option>
+                <option value="Espanhol">Espanhol</option>
+                <option value="Outra">Outra</option>
+            </select>
+            <div class="field-hint">Matéria do material original.</div>
+            
+            <label for="aee-tipo-material">Tipo de Material:*</label>
+            <select id="aee-tipo-material" class="form-control">
+                <option value="" selected disabled>O que será adaptado?</option>
+                <option value="Atividade/Exercício">Atividade/Exercício</option>
+                <option value="Prova/Avaliação">Prova/Avaliação</option>
+                <option value="Plano de Aula">Plano de Aula</option>
+                <option value="Texto/Leitura">Texto/Leitura</option>
+                <option value="Jogo Educativo">Jogo Educativo</option>
+                <option value="Material Didático">Material Didático</option>
+                <option value="Projeto">Projeto</option>
+                <option value="Outro">Outro</option>
+            </select>
+            <div class="field-hint">Categoria do material a ser adaptado.</div>
+            
+            <label for="aee-conteudo-original">Conteúdo Original:*</label>
+            <textarea id="aee-conteudo-original" rows="6" placeholder="Cole ou descreva o material original que precisa ser adaptado..."></textarea>
+            <div class="field-hint">Material que será base para a adaptação.</div>
+            
+            <label for="aee-objetivos">Objetivos de Aprendizagem:*</label>
+            <textarea id="aee-objetivos" rows="3" placeholder="Quais objetivos o estudante deve alcançar com este material?"></textarea>
+            <div class="field-hint">Metas educacionais específicas.</div>
+        </div>
+
+        <!-- Adaptações Necessárias -->
+        <div class="field-group">
+            <h3><i class="material-icons">build</i> Adaptações Necessárias</h3>
+            
+            <label for="aee-nivel-adaptacao">Nível de Adaptação:*</label>
+            <select id="aee-nivel-adaptacao" class="form-control">
+                <option value="" selected disabled>Selecione o nível</option>
+                <option value="Adaptação Leve">Adaptação Leve (pequenos ajustes)</option>
+                <option value="Adaptação Moderada">Adaptação Moderada (mudanças significativas)</option>
+                <option value="Adaptação Significativa">Adaptação Significativa (reestruturação completa)</option>
+            </select>
+            <div class="field-hint">Intensidade das modificações necessárias.</div>
+            
+            <label for="aee-tipos-adaptacao">Tipos de Adaptação Necessários:</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="adapt-linguagem"> Simplificação da linguagem</label>
+                <label><input type="checkbox" id="adapt-visual"> Recursos visuais (imagens, pictogramas)</label>
+                <label><input type="checkbox" id="adapt-tamanho"> Redução da quantidade de itens</label>
+                <label><input type="checkbox" id="adapt-tempo"> Flexibilização do tempo</label>
+                <label><input type="checkbox" id="adapt-formato"> Mudança de formato</label>
+                <label><input type="checkbox" id="adapt-tecnologia"> Recursos tecnológicos</label>
+                <label><input type="checkbox" id="adapt-sensorial"> Adaptações sensoriais</label>
+                <label><input type="checkbox" id="adapt-motora"> Adaptações motoras</label>
+            </div>
+            <div class="field-hint">Selecione os tipos de adaptação necessários.</div>
+            
+            <label for="aee-recursos-especificos">Recursos Específicos:</label>
+            <textarea id="aee-recursos-especificos" rows="3" placeholder="Ex: Comunicação alternativa, materiais táteis, software específico..."></textarea>
+            <div class="field-hint">Recursos especiais necessários.</div>
+            
+            <label for="aee-estrategias">Estratégias Pedagógicas:</label>
+            <textarea id="aee-estrategias" rows="3" placeholder="Ex: Ensino estruturado, reforço positivo, pausas programadas..."></textarea>
+            <div class="field-hint">Metodologias específicas para o estudante.</div>
+        </div>
+
+        <!-- Avaliação e Acompanhamento -->
+        <div class="field-group">
+            <h3><i class="material-icons">assessment</i> Avaliação e Acompanhamento</h3>
+            
+            <label for="aee-forma-avaliacao">Forma de Avaliação Adaptada:</label>
+            <textarea id="aee-forma-avaliacao" rows="3" placeholder="Como será avaliado o desempenho do estudante?"></textarea>
+            <div class="field-hint">Métodos de avaliação adequados.</div>
+            
+            <label for="aee-criterios">Critérios de Sucesso:</label>
+            <textarea id="aee-criterios" rows="3" placeholder="Quais indicadores mostrarão que os objetivos foram alcançados?"></textarea>
+            <div class="field-hint">Como medir o progresso do estudante.</div>
+            
+            <label for="aee-apoio-familia">Orientações para Família:</label>
+            <select id="aee-apoio-familia" class="form-control">
+                <option value="">Não incluir orientações familiares</option>
+                <option value="Sim, incluir orientações para continuidade em casa">Sim, incluir orientações para família</option>
+            </select>
+            <div class="field-hint">Se deve incluir dicas para os familiares.</div>
+        </div>
+
+        <!-- Observações -->
+        <div class="field-group">
+            <h3><i class="material-icons">note</i> Observações Adicionais</h3>
+            
+            <label for="aee-observacoes">Observações Especiais:</label>
+            <textarea id="aee-observacoes" rows="3" placeholder="Informações adicionais importantes para a adaptação..."></textarea>
+            <div class="field-hint">Detalhes extras relevantes.</div>
+            
+            <label for="aee-colaboracao">Colaboração com Professor Regente:</label>
+            <select id="aee-colaboracao" class="form-control">
+                <option value="">Não incluir orientações de colaboração</option>
+                <option value="Sim, incluir orientações para trabalho colaborativo">Sim, incluir orientações colaborativas</option>
+            </select>
+            <div class="field-hint">Se deve incluir dicas para trabalho conjunto.</div>
+        </div>
+
+        <div class="btn-action-group">
+            <button type="button" class="btn-clear" id="limpar-aee">
+                <i class="material-icons">delete_sweep</i> Limpar
+            </button>
+            <button type="submit" class="btn-submit" id="gerar-prompt-aee">
+                <i class="material-icons">settings</i> Gerar Prompt de Adaptação
+            </button>
+        </div>
+    </form>
+
+    <!-- Área de Resultado -->
+    <div id="resultado-prompt-aee" class="field-group hidden">
+        <h3><i class="material-icons">assignment</i> Prompt Gerado</h3>
+        <div id="prompt-aee-content" class="content-editable" contenteditable="true"></div>
+        <div class="btn-action-group" style="justify-content: flex-start; margin-top: 15px;">
+            <button type="button" class="btn-download" id="copiar-prompt-aee">
+                <i class="material-icons">content_copy</i> Copiar Prompt
+            </button>
+        </div>
+    </div>
+
+    <!-- Área para Resposta da IA -->
+    <div id="area-resposta-ia-aee" class="field-group hidden">
+        <h3><i class="material-icons">smart_toy</i> Resposta da IA</h3>
+        <label for="resposta-ia-aee">Cole a resposta da IA aqui:</label>
+        <textarea id="resposta-ia-aee" rows="10" placeholder="Cole aqui a resposta completa da IA..."></textarea>
+        <div class="btn-action-group">
+            <button type="button" class="btn-submit" id="processar-resposta-aee">
+                <i class="material-icons">done_all</i> Processar Resposta
+            </button>
+        </div>
+    </div>
+
+    <!-- Resultado Final -->
+    <div id="resultado-final-aee" class="field-group hidden">
+        <h3><i class="material-icons">assignment_turned_in</i> Material Adaptado</h3>
+        <div id="material-aee-content" class="content-editable" contenteditable="true"></div>
+        
+        <div class="btn-action-group" style="justify-content: flex-start; margin-top: 15px;">
+            <button type="button" class="btn-download" id="download-material-aee">
+                <i class="material-icons">download</i> Baixar Material Adaptado
+            </button>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const formAee = document.getElementById('form-aee');
+    const resultadoPromptAee = document.getElementById('resultado-prompt-aee');
+    const promptAeeContent = document.getElementById('prompt-aee-content');
+    const areaRespostaIaAee = document.getElementById('area-resposta-ia-aee');
+    const resultadoFinalAee = document.getElementById('resultado-final-aee');
+    
+    // Gerar Prompt
+    document.getElementById('gerar-prompt-aee').addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Validação básica
+        const idade = document.getElementById('aee-idade').value;
+        const deficiencia = document.getElementById('aee-deficiencia').value;
+        const caracteristicas = document.getElementById('aee-caracteristicas').value;
+        const disciplina = document.getElementById('aee-disciplina').value;
+        const tipoMaterial = document.getElementById('aee-tipo-material').value;
+        const conteudoOriginal = document.getElementById('aee-conteudo-original').value;
+        const objetivos = document.getElementById('aee-objetivos').value;
+        const nivelAdaptacao = document.getElementById('aee-nivel-adaptacao').value;
+        
+        if (!idade || !deficiencia || !caracteristicas || !disciplina || !tipoMaterial || !conteudoOriginal || !objetivos || !nivelAdaptacao) {
+            alert('Por favor, preencha todos os campos obrigatórios (*)');
+            return;
+        }
+        
+        // Coletar adaptações selecionadas
+        const adaptacoes = [];
+        if (document.getElementById('adapt-linguagem').checked) adaptacoes.push('Simplificação da linguagem');
+        if (document.getElementById('adapt-visual').checked) adaptacoes.push('Recursos visuais');
+        if (document.getElementById('adapt-tamanho').checked) adaptacoes.push('Redução da quantidade');
+        if (document.getElementById('adapt-tempo').checked) adaptacoes.push('Flexibilização do tempo');
+        if (document.getElementById('adapt-formato').checked) adaptacoes.push('Mudança de formato');
+        if (document.getElementById('adapt-tecnologia').checked) adaptacoes.push('Recursos tecnológicos');
+        if (document.getElementById('adapt-sensorial').checked) adaptacoes.push('Adaptações sensoriais');
+        if (document.getElementById('adapt-motora').checked) adaptacoes.push('Adaptações motoras');
+        
+        // Coletar dados do formulário
+        const dados = {
+            escola: document.getElementById('aee-escola').value,
+            professor: document.getElementById('aee-professor').value,
+            estudante: document.getElementById('aee-estudante').value,
+            idade: idade,
+            deficiencia: deficiencia,
+            caracteristicas: caracteristicas,
+            disciplina: disciplina,
+            tipo_material: tipoMaterial,
+            conteudo_original: conteudoOriginal,
+            objetivos: objetivos,
+            nivel_adaptacao: nivelAdaptacao,
+            tipos_adaptacao: adaptacoes,
+            recursos_especificos: document.getElementById('aee-recursos-especificos').value,
+            estrategias: document.getElementById('aee-estrategias').value,
+            forma_avaliacao: document.getElementById('aee-forma-avaliacao').value,
+            criterios: document.getElementById('aee-criterios').value,
+            apoio_familia: document.getElementById('aee-apoio-familia').value,
+            observacoes: document.getElementById('aee-observacoes').value,
+            colaboracao: document.getElementById('aee-colaboracao').value
+        };
+        
+        // Enviar para API
+        fetch('/api/gerar-prompt-aee', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dados)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                promptAeeContent.textContent = data.prompt;
+                resultadoPromptAee.classList.remove('hidden');
+                areaRespostaIaAee.classList.remove('hidden');
+                
+                // Copiar automaticamente para clipboard
+                navigator.clipboard.writeText(data.prompt).then(() => {
+                    mostrarFeedback('Prompt copiado para a área de transferência!');
+                });
+            } else {
+                alert('Erro: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao gerar prompt');
+        });
+    });
+    
+    // Processar Resposta da IA
+    document.getElementById('processar-resposta-aee').addEventListener('click', function() {
+        const respostaIa = document.getElementById('resposta-ia-aee').value;
+        
+        if (!respostaIa.trim()) {
+            alert('Por favor, cole a resposta da IA');
+            return;
+        }
+        
+        fetch('/api/processar-resposta-ia', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ resposta: respostaIa })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('material-aee-content').textContent = data.material_aee;
+                resultadoFinalAee.classList.remove('hidden');
+            } else {
+                alert('Erro: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao processar resposta');
+        });
+    });
+    
+    // Copiar Prompt
+    document.getElementById('copiar-prompt-aee').addEventListener('click', function() {
+        const texto = promptAeeContent.textContent;
+        navigator.clipboard.writeText(texto).then(() => {
+            mostrarFeedback('Prompt copiado!');
+        });
+    });
+    
+    // Download
+    document.getElementById('download-material-aee').addEventListener('click', function() {
+        const conteudo = document.getElementById('material-aee-content').textContent;
+        downloadArquivo(conteudo, 'material-aee');
+    });
+    
+    // Limpar formulário
+    document.getElementById('limpar-aee').addEventListener('click', function() {
+        formAee.reset();
+        resultadoPromptAee.classList.add('hidden');
+        areaRespostaIaAee.classList.add('hidden');
+        resultadoFinalAee.classList.add('hidden');
+    });
+    
+    // Funções auxiliares
+    function downloadArquivo(conteudo, tipo) {
+        const url = `/api/download/${tipo}?conteudo=${encodeURIComponent(conteudo)}`;
+        const a = document.createElement('a');
+        a.href = url;
+        a.click();
+    }
+    
+    function mostrarFeedback(mensagem) {
+        let feedback = document.querySelector('.copy-feedback');
+        if (!feedback) {
+            feedback = document.createElement('div');
+            feedback.className = 'copy-feedback';
+            document.body.appendChild(feedback);
+        }
+        feedback.textContent = mensagem;
+        feedback.classList.add('show');
+        setTimeout(() => feedback.classList.remove('show'), 3000);
+    }
+});
+</script>
+
+<style>
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.checkbox-group label:hover {
+    background: #e9ecef;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+}
+</style>
+{% endblock %}

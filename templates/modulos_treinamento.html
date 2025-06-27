@@ -1,0 +1,505 @@
+{% extends "recursos_cognitivos_base.html" %}
+
+{% block title %}Módulos de Treinamento - Recursos Cognitivos{% endblock %}
+
+{% block header_title %}Módulos de Treinamento{% endblock %}
+
+{% block mode_text %}Aprenda a usar IAs na educação com nossos módulos de treinamento.{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h2><i class="material-icons">school</i> Módulos de Treinamento</h2>
+    
+    <!-- Módulos Principais -->
+    <div class="modules-grid">
+        <!-- Módulo 1: Introdução às IAs -->
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-icon intro">
+                    <i class="material-icons">lightbulb</i>
+                </div>
+                <div class="module-info">
+                    <h3>Introdução às IAs na Educação</h3>
+                    <span class="module-duration">30 min</span>
+                </div>
+            </div>
+            <div class="module-content">
+                <p>Fundamentos sobre como usar Inteligência Artificial para potencializar o ensino.</p>
+                <ul>
+                    <li>O que são IAs educacionais</li>
+                    <li>Benefícios para professores</li>
+                    <li>Principais ferramentas disponíveis</li>
+                    <li>Ética no uso de IA</li>
+                </ul>
+            </div>
+            <div class="module-footer">
+                <div class="module-progress">
+                    <span>Progresso: 0%</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <button class="btn-module">
+                    <i class="material-icons">play_arrow</i> Iniciar Módulo
+                </button>
+            </div>
+        </div>
+
+        <!-- Módulo 2: Criando Prompts Eficazes -->
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-icon prompts">
+                    <i class="material-icons">edit</i>
+                </div>
+                <div class="module-info">
+                    <h3>Criando Prompts Eficazes</h3>
+                    <span class="module-duration">45 min</span>
+                </div>
+            </div>
+            <div class="module-content">
+                <p>Aprenda a escrever comandos que geram resultados precisos e úteis.</p>
+                <ul>
+                    <li>Estrutura de um bom prompt</li>
+                    <li>Técnicas de refinamento</li>
+                    <li>Exemplos práticos</li>
+                    <li>Erros comuns a evitar</li>
+                </ul>
+            </div>
+            <div class="module-footer">
+                <div class="module-progress">
+                    <span>Progresso: 0%</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <button class="btn-module">
+                    <i class="material-icons">play_arrow</i> Iniciar Módulo
+                </button>
+            </div>
+        </div>
+
+        <!-- Módulo 3: Geração de Provas -->
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-icon provas">
+                    <i class="material-icons">quiz</i>
+                </div>
+                <div class="module-info">
+                    <h3>Gerando Provas com IA</h3>
+                    <span class="module-duration">40 min</span>
+                </div>
+            </div>
+            <div class="module-content">
+                <p>Domine a criação de avaliações personalizadas e eficazes.</p>
+                <ul>
+                    <li>Tipos de questões</li>
+                    <li>Níveis de dificuldade</li>
+                    <li>Alinhamento com BNCC</li>
+                    <li>Gabaritos e correções</li>
+                </ul>
+            </div>
+            <div class="module-footer">
+                <div class="module-progress">
+                    <span>Progresso: 0%</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <button class="btn-module">
+                    <i class="material-icons">play_arrow</i> Iniciar Módulo
+                </button>
+            </div>
+        </div>
+
+        <!-- Módulo 4: Planejamento de Aulas -->
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-icon aulas">
+                    <i class="material-icons">cast_for_education</i>
+                </div>
+                <div class="module-info">
+                    <h3>Planejamento de Aulas</h3>
+                    <span class="module-duration">50 min</span>
+                </div>
+            </div>
+            <div class="module-content">
+                <p>Crie planos de aula estruturados e envolventes.</p>
+                <ul>
+                    <li>Objetivos de aprendizagem</li>
+                    <li>Metodologias ativas</li>
+                    <li>Recursos didáticos</li>
+                    <li>Avaliação formativa</li>
+                </ul>
+            </div>
+            <div class="module-footer">
+                <div class="module-progress">
+                    <span>Progresso: 0%</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <button class="btn-module">
+                    <i class="material-icons">play_arrow</i> Iniciar Módulo
+                </button>
+            </div>
+        </div>
+
+        <!-- Módulo 5: Correção de Redações -->
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-icon redacoes">
+                    <i class="material-icons">rate_review</i>
+                </div>
+                <div class="module-info">
+                    <h3>Correção de Redações</h3>
+                    <span class="module-duration">35 min</span>
+                </div>
+            </div>
+            <div class="module-content">
+                <p>Otimize o processo de correção e feedback de textos.</p>
+                <ul>
+                    <li>Critérios de avaliação</li>
+                    <li>Feedback construtivo</li>
+                    <li>Identificação de erros</li>
+                    <li>Sugestões de melhoria</li>
+                </ul>
+            </div>
+            <div class="module-footer">
+                <div class="module-progress">
+                    <span>Progresso: 0%</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <button class="btn-module">
+                    <i class="material-icons">play_arrow</i> Iniciar Módulo
+                </button>
+            </div>
+        </div>
+
+        <!-- Módulo 6: Adaptação AEE -->
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-icon aee">
+                    <i class="material-icons">accessible</i>
+                </div>
+                <div class="module-info">
+                    <h3>Adaptação para AEE</h3>
+                    <span class="module-duration">60 min</span>
+                </div>
+            </div>
+            <div class="module-content">
+                <p>Crie materiais inclusivos para estudantes com necessidades especiais.</p>
+                <ul>
+                    <li>Tipos de deficiências</li>
+                    <li>Estratégias de adaptação</li>
+                    <li>Recursos assistivos</li>
+                    <li>Inclusão educacional</li>
+                </ul>
+            </div>
+            <div class="module-footer">
+                <div class="module-progress">
+                    <span>Progresso: 0%</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <button class="btn-module">
+                    <i class="material-icons">play_arrow</i> Iniciar Módulo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção de Progresso Geral -->
+    <div class="progress-section">
+        <div class="progress-card">
+            <h3><i class="material-icons">trending_up</i> Seu Progresso</h3>
+            <div class="overall-progress">
+                <div class="progress-circle">
+                    <svg width="120" height="120">
+                        <circle cx="60" cy="60" r="50" stroke="#e0e0e0" stroke-width="10" fill="none"/>
+                        <circle cx="60" cy="60" r="50" stroke="#2196F3" stroke-width="10" fill="none" 
+                                stroke-dasharray="314" stroke-dashoffset="314" class="progress-ring"/>
+                    </svg>
+                    <div class="progress-text">
+                        <span class="progress-percent">0%</span>
+                        <span class="progress-label">Completo</span>
+                    </div>
+                </div>
+                <div class="progress-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">Módulos Concluídos</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">6</span>
+                        <span class="stat-label">Total de Módulos</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">0h</span>
+                        <span class="stat-label">Tempo Estudado</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tips-card">
+            <h3><i class="material-icons">tips_and_updates</i> Dicas de Estudo</h3>
+            <ul>
+                <li><strong>Pratique regularmente:</strong> Dedique pelo menos 30 minutos por dia</li>
+                <li><strong>Aplique na prática:</strong> Use as ferramentas em suas aulas</li>
+                <li><strong>Experimente diferentes IAs:</strong> Cada uma tem suas especialidades</li>
+                <li><strong>Compartilhe experiências:</strong> Troque ideias com outros educadores</li>
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.module-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid #e0e0e0;
+}
+
+.module-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.module-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.module-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.module-icon.intro { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.module-icon.prompts { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.module-icon.provas { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.module-icon.aulas { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+.module-icon.redacoes { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+.module-icon.aee { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333; }
+
+.module-icon i {
+    font-size: 24px;
+}
+
+.module-info h3 {
+    margin: 0 0 5px 0;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.module-duration {
+    color: #666;
+    font-size: 14px;
+    background: #f0f0f0;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.module-content {
+    padding: 20px 25px;
+}
+
+.module-content p {
+    margin: 0 0 15px 0;
+    color: #666;
+    line-height: 1.5;
+}
+
+.module-content ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #666;
+}
+
+.module-content li {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.module-footer {
+    padding: 20px 25px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.module-progress {
+    margin-bottom: 15px;
+}
+
+.module-progress span {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #2196F3;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.btn-module {
+    width: 100%;
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.btn-module:hover {
+    background: #1976D2;
+    transform: translateY(-1px);
+}
+
+.progress-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.progress-card, .tips-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    padding: 25px;
+}
+
+.progress-card h3, .tips-card h3 {
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #333;
+}
+
+.overall-progress {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.progress-circle {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.progress-percent {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    color: #2196F3;
+}
+
+.progress-label {
+    font-size: 14px;
+    color: #666;
+}
+
+.progress-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-number {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #666;
+}
+
+.tips-card ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.tips-card li {
+    margin-bottom: 12px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.tips-card strong {
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .modules-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .progress-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .overall-progress {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+</style>
+{% endblock %}

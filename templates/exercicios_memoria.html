@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercícios de Memória - Recursos Cognitivos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2B4872;
+            --secondary-color: #56CAC9;
+            --accent-color: #F4A261;
+            --success-color: #2A9D8F;
+            --background-color: #F8F9FA;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(43, 72, 114, 0.4);
+        }
+        
+        .game-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+        
+        .memory-card {
+            aspect-ratio: 1;
+            background: var(--secondary-color);
+            border: none;
+            border-radius: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .memory-card.flipped {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .memory-card.matched {
+            background: var(--success-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-brain me-2"></i>Recursos Cognitivos
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/exercicios-memoria">Exercícios de Memória</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold" style="color: var(--primary-color);">
+                        <i class="fas fa-brain me-3"></i>Exercícios de Memória
+                    </h1>
+                    <p class="lead text-muted">Fortaleça sua memória com jogos interativos e desafiadores</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jogo da Memória -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="game-card">
+                    <h3 class="text-center mb-4" style="color: var(--primary-color);">
+                        <i class="fas fa-gamepad me-2"></i>Jogo da Memória
+                    </h3>
+                    
+                    <div class="text-center mb-4">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h5>Tentativas</h5>
+                                    <span id="tentativas" class="fs-4 fw-bold" style="color: var(--primary-color);">0</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h5>Pares Encontrados</h5>
+                                    <span id="pares" class="fs-4 fw-bold" style="color: var(--success-color);">0/8</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h5>Tempo</h5>
+                                    <span id="tempo" class="fs-4 fw-bold" style="color: var(--accent-color);">00:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="memory-grid" id="memoryGrid">
+                        <!-- Cards serão gerados pelo JavaScript -->
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary" onclick="iniciarJogo()">
+                            <i class="fas fa-play me-2"></i>Novo Jogo
+                        </button>
+                    </div>
+
+                    <div id="resultado" class="text-center mt-4" style="display: none;">
+                        <div class="alert alert-success">
+                            <h4><i class="fas fa-trophy me-2"></i>Parabéns!</h4>
+                            <p>Você completou o jogo em <span id="tempoFinal"></span> com <span id="tentativasFinal"></span> tentativas!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercício de Sequência -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-8">
+                <div class="game-card">
+                    <h3 class="text-center mb-4" style="color: var(--primary-color);">
+                        <i class="fas fa-list-ol me-2"></i>Memorize a Sequência
+                    </h3>
+                    
+                    <div class="text-center mb-4">
+                        <p>Memorize a sequência de números que aparecerá e depois digite-a:</p>
+                        <div id="sequenciaDisplay" class="p-4 bg-light rounded mb-3" style="font-size: 2rem; font-weight: bold; min-height: 80px; display: flex; align-items: center; justify-content: center;">
+                            Clique em "Mostrar Sequência" para começar
+                        </div>
+                        
+                        <input type="text" id="sequenciaInput" class="form-control mb-3" placeholder="Digite a sequência..." style="display: none;">
+                        
+                        <button class="btn btn-primary me-2" onclick="mostrarSequencia()">
+                            <i class="fas fa-eye me-2"></i>Mostrar Sequência
+                        </button>
+                        <button class="btn btn-success" onclick="verificarSequencia()" style="display: none;" id="btnVerificar">
+                            <i class="fas fa-check me-2"></i>Verificar
+                        </button>
+                        
+                        <div id="resultadoSequencia" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Jogo da Memória
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let tentativas = 0;
+        let startTime;
+        let gameInterval;
+
+        const emojis = ['🎯', '🎮', '🎲', '🎪', '🎨', '🎭', '🎸', '🎺'];
+
+        function iniciarJogo() {
+            cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+            flippedCards = [];
+            matchedPairs = 0;
+            tentativas = 0;
+            startTime = new Date();
+            
+            document.getElementById('tentativas').textContent = '0';
+            document.getElementById('pares').textContent = '0/8';
+            document.getElementById('tempo').textContent = '00:00';
+            document.getElementById('resultado').style.display = 'none';
+            
+            criarGrid();
+            iniciarTimer();
+        }
+
+        function criarGrid() {
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+            
+            cards.forEach((emoji, index) => {
+                const card = document.createElement('button');
+                card.className = 'memory-card';
+                card.dataset.index = index;
+                card.dataset.emoji = emoji;
+                card.onclick = () => flipCard(card);
+                grid.appendChild(card);
+            });
+        }
+
+        function flipCard(card) {
+            if (flippedCards.length === 2 || card.classList.contains('flipped') || card.classList.contains('matched')) {
+                return;
+            }
+
+            card.classList.add('flipped');
+            card.textContent = card.dataset.emoji;
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                tentativas++;
+                document.getElementById('tentativas').textContent = tentativas;
+                
+                setTimeout(checkMatch, 1000);
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            
+            if (card1.dataset.emoji === card2.dataset.emoji) {
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                matchedPairs++;
+                document.getElementById('pares').textContent = `${matchedPairs}/8`;
+                
+                if (matchedPairs === 8) {
+                    finalizarJogo();
+                }
+            } else {
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                card1.textContent = '';
+                card2.textContent = '';
+            }
+            
+            flippedCards = [];
+        }
+
+        function iniciarTimer() {
+            gameInterval = setInterval(() => {
+                const elapsed = Math.floor((new Date() - startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+                const seconds = (elapsed % 60).toString().padStart(2, '0');
+                document.getElementById('tempo').textContent = `${minutes}:${seconds}`;
+            }, 1000);
+        }
+
+        function finalizarJogo() {
+            clearInterval(gameInterval);
+            const tempoFinal = document.getElementById('tempo').textContent;
+            document.getElementById('tempoFinal').textContent = tempoFinal;
+            document.getElementById('tentativasFinal').textContent = tentativas;
+            document.getElementById('resultado').style.display = 'block';
+        }
+
+        // Exercício de Sequência
+        let sequenciaAtual = [];
+        let nivelSequencia = 3;
+
+        function mostrarSequencia() {
+            sequenciaAtual = [];
+            for (let i = 0; i < nivelSequencia; i++) {
+                sequenciaAtual.push(Math.floor(Math.random() * 9) + 1);
+            }
+            
+            const display = document.getElementById('sequenciaDisplay');
+            display.textContent = sequenciaAtual.join(' - ');
+            
+            setTimeout(() => {
+                display.textContent = 'Digite a sequência que você viu:';
+                document.getElementById('sequenciaInput').style.display = 'block';
+                document.getElementById('btnVerificar').style.display = 'inline-block';
+                document.getElementById('sequenciaInput').focus();
+            }, 3000);
+        }
+
+        function verificarSequencia() {
+            const input = document.getElementById('sequenciaInput').value.trim();
+            const inputArray = input.split(/[\s-,]+/).map(n => parseInt(n));
+            
+            const resultado = document.getElementById('resultadoSequencia');
+            
+            if (JSON.stringify(inputArray) === JSON.stringify(sequenciaAtual)) {
+                resultado.innerHTML = '<div class="alert alert-success"><i class="fas fa-check-circle me-2"></i>Correto! Parabéns!</div>';
+                nivelSequencia = Math.min(nivelSequencia + 1, 8);
+            } else {
+                resultado.innerHTML = `<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i>Incorreto. A sequência era: ${sequenciaAtual.join(' - ')}</div>`;
+                nivelSequencia = Math.max(nivelSequencia - 1, 3);
+            }
+            
+            // Reset
+            setTimeout(() => {
+                document.getElementById('sequenciaInput').value = '';
+                document.getElementById('sequenciaInput').style.display = 'none';
+                document.getElementById('btnVerificar').style.display = 'none';
+                document.getElementById('sequenciaDisplay').textContent = 'Clique em "Mostrar Sequência" para continuar';
+                resultado.innerHTML = '';
+            }, 3000);
+        }
+
+        // Inicializar jogo ao carregar a página
+        window.onload = function() {
+            iniciarJogo();
+        };
+    </script>
+</body>
+</html>

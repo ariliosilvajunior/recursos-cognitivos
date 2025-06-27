@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desenvolvimento de Linguagem - Recursos Cognitivos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2B4872;
+            --secondary-color: #56CAC9;
+            --accent-color: #F4A261;
+            --success-color: #2A9D8F;
+            --danger-color: #E76F51;
+            --background-color: #F8F9FA;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(43, 72, 114, 0.4);
+        }
+        
+        .game-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .word-card {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 20px 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .word-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .definition-card {
+            background: white;
+            border: 2px solid var(--secondary-color);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .definition-card:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .definition-card.correct {
+            background: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
+        }
+        
+        .definition-card.incorrect {
+            background: var(--danger-color);
+            color: white;
+            border-color: var(--danger-color);
+        }
+        
+        .sentence-builder {
+            min-height: 100px;
+            border: 2px dashed var(--secondary-color);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            background: white;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .word-token {
+            background: var(--accent-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .word-token:hover {
+            background: var(--primary-color);
+            transform: scale(1.05);
+        }
+        
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .synonym-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .synonym-card {
+            background: white;
+            border: 2px solid var(--secondary-color);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .synonym-card:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+        
+        .synonym-card.selected {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+        
+        .synonym-card.correct {
+            background: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
+        }
+        
+        .synonym-card.incorrect {
+            background: var(--danger-color);
+            color: white;
+            border-color: var(--danger-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-brain me-2"></i>Recursos Cognitivos
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/desenvolvimento-linguagem">Desenvolvimento de Linguagem</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold" style="color: var(--primary-color);">
+                        <i class="fas fa-book-open me-3"></i>Desenvolvimento de Linguagem
+                    </h1>
+                    <p class="lead text-muted">Expanda seu vocabulário e habilidades linguísticas</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jogo de Vocabulário -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="game-card">
+                    <h3 class="text-center mb-4" style="color: var(--primary-color);">
+                        <i class="fas fa-spell-check me-2"></i>Teste de Vocabulário
+                    </h3>
+                    
+                    <div class="text-center mb-4">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Pontuação</h6>
+                                    <span id="pontosVocab" class="fs-4 fw-bold" style="color: var(--primary-color);">0</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Questão</h6>
+                                    <span id="questaoAtual" class="fs-4 fw-bold" style="color: var(--accent-color);">1/10</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Acertos</h6>
+                                    <span id="acertosVocab" class="fs-4 fw-bold" style="color: var(--success-color);">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="vocabularioGame">
+                        <div class="word-card" id="palavraAtual">
+                            CLIQUE EM "INICIAR" PARA COMEÇAR
+                        </div>
+                        
+                        <div id="definicoes">
+                            <!-- Definições serão geradas pelo JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary" onclick="iniciarVocabulario()">
+                            <i class="fas fa-play me-2"></i>Iniciar Teste
+                        </button>
+                        <button class="btn btn-secondary ms-2" onclick="proximaPalavra()">
+                            <i class="fas fa-forward me-2"></i>Próxima
+                        </button>
+                    </div>
+
+                    <div id="resultadoVocab" class="text-center mt-4" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Construtor de Frases -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-10">
+                <div class="game-card">
+                    <h3 class="text-center mb-4" style="color: var(--primary-color);">
+                        <i class="fas fa-puzzle-piece me-2"></i>Construtor de Frases
+                    </h3>
+                    
+                    <div class="text-center mb-4">
+                        <p>Organize as palavras para formar uma frase correta:</p>
+                        <div class="row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Frases Completas</h6>
+                                    <span id="frasesCompletas" class="fs-4 fw-bold" style="color: var(--success-color);">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sentence-builder" id="sentenceBuilder">
+                        <span class="text-muted">Arraste as palavras aqui para formar a frase...</span>
+                    </div>
+
+                    <div class="word-bank" id="wordBank">
+                        <!-- Palavras serão geradas pelo JavaScript -->
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary" onclick="novaFrase()">
+                            <i class="fas fa-refresh me-2"></i>Nova Frase
+                        </button>
+                        <button class="btn btn-success ms-2" onclick="verificarFrase()">
+                            <i class="fas fa-check me-2"></i>Verificar
+                        </button>
+                        <button class="btn btn-warning ms-2" onclick="limparFrase()">
+                            <i class="fas fa-eraser me-2"></i>Limpar
+                        </button>
+                    </div>
+
+                    <div id="resultadoFrase" class="text-center mt-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jogo de Sinônimos -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-8">
+                <div class="game-card">
+                    <h3 class="text-center mb-4" style="color: var(--primary-color);">
+                        <i class="fas fa-equals me-2"></i>Encontre os Sinônimos
+                    </h3>
+                    
+                    <div class="text-center mb-4">
+                        <p>Encontre a palavra que tem o mesmo significado:</p>
+                        <div class="row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Pontos Sinônimos</h6>
+                                    <span id="pontosSinonimos" class="fs-4 fw-bold" style="color: var(--primary-color);">0</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Sequência</h6>
+                                    <span id="sequenciaSinonimos" class="fs-4 fw-bold" style="color: var(--accent-color);">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="word-card" id="palavraSinonimo">
+                        FELIZ
+                    </div>
+
+                    <div class="synonym-grid" id="synonymGrid">
+                        <!-- Opções serão geradas pelo JavaScript -->
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary" onclick="iniciarSinonimos()">
+                            <i class="fas fa-play me-2"></i>Iniciar Jogo
+                        </button>
+                    </div>
+
+                    <div id="resultadoSinonimos" class="text-center mt-4" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Base de dados de vocabulário
+        const vocabulario = [
+            { palavra: "ELOQUENTE", definicao: "Que fala com facilidade e elegância", opcoes: ["Que fala com facilidade e elegância", "Que é muito alto", "Que é silencioso", "Que é confuso"] },
+            { palavra: "PERSPICAZ", definicao: "Que tem visão clara e penetrante", opcoes: ["Que tem visão clara e penetrante", "Que é míope", "Que é lento", "Que é confuso"] },
+            { palavra: "EFÊMERO", definicao: "Que dura pouco tempo", opcoes: ["Que dura pouco tempo", "Que é eterno", "Que é grande", "Que é pequeno"] },
+            { palavra: "PROLIXO", definicao: "Que fala ou escreve demais", opcoes: ["Que fala ou escreve demais", "Que é conciso", "Que é mudo", "Que é rápido"] },
+            { palavra: "ALTRUÍSTA", definicao: "Que se dedica ao bem dos outros", opcoes: ["Que se dedica ao bem dos outros", "Que é egoísta", "Que é solitário", "Que é rico"] },
+            { palavra: "METICULOSO", definicao: "Que é muito cuidadoso e preciso", opcoes: ["Que é muito cuidadoso e preciso", "Que é descuidado", "Que é rápido", "Que é grande"] },
+            { palavra: "VEEMENTE", definicao: "Que demonstra paixão e intensidade", opcoes: ["Que demonstra paixão e intensidade", "Que é calmo", "Que é frio", "Que é pequeno"] },
+            { palavra: "SAGAZ", definicao: "Que é astuto e inteligente", opcoes: ["Que é astuto e inteligente", "Que é ingênuo", "Que é lento", "Que é alto"] },
+            { palavra: "CORDIAL", definicao: "Que é afetuoso e gentil", opcoes: ["Que é afetuoso e gentil", "Que é rude", "Que é frio", "Que é rápido"] },
+            { palavra: "TENAZ", definicao: "Que é persistente e determinado", opcoes: ["Que é persistente e determinado", "Que desiste fácil", "Que é fraco", "Que é pequeno"] }
+        ];
+
+        // Variáveis do jogo de vocabulário
+        let vocabAtivo = false;
+        let questaoVocab = 0;
+        let pontosVocab = 0;
+        let acertosVocab = 0;
+        let vocabularioAtual = [];
+
+        function iniciarVocabulario() {
+            vocabAtivo = true;
+            questaoVocab = 0;
+            pontosVocab = 0;
+            acertosVocab = 0;
+            vocabularioAtual = [...vocabulario].sort(() => Math.random() - 0.5).slice(0, 10);
+            
+            document.getElementById('pontosVocab').textContent = '0';
+            document.getElementById('acertosVocab').textContent = '0';
+            document.getElementById('resultadoVocab').style.display = 'none';
+            
+            proximaPalavra();
+        }
+
+        function proximaPalavra() {
+            if (!vocabAtivo || questaoVocab >= vocabularioAtual.length) {
+                finalizarVocabulario();
+                return;
+            }
+
+            const item = vocabularioAtual[questaoVocab];
+            document.getElementById('palavraAtual').textContent = item.palavra;
+            document.getElementById('questaoAtual').textContent = `${questaoVocab + 1}/10`;
+
+            // Embaralhar opções
+            const opcoes = [...item.opcoes].sort(() => Math.random() - 0.5);
+            
+            const definicoesDiv = document.getElementById('definicoes');
+            definicoesDiv.innerHTML = '';
+            
+            opcoes.forEach(opcao => {
+                const div = document.createElement('div');
+                div.className = 'definition-card';
+                div.textContent = opcao;
+                div.onclick = () => escolherDefinicao(div, opcao, item.definicao);
+                definicoesDiv.appendChild(div);
+            });
+        }
+
+        function escolherDefinicao(elemento, opcao, correta) {
+            if (!vocabAtivo) return;
+            
+            // Desabilitar outras opções
+            const definicoes = document.querySelectorAll('.definition-card');
+            definicoes.forEach(def => def.onclick = null);
+            
+            if (opcao === correta) {
+                elemento.classList.add('correct');
+                pontosVocab += 10;
+                acertosVocab++;
+                document.getElementById('pontosVocab').textContent = pontosVocab;
+                document.getElementById('acertosVocab').textContent = acertosVocab;
+            } else {
+                elemento.classList.add('incorrect');
+                // Mostrar resposta correta
+                definicoes.forEach(def => {
+                    if (def.textContent === correta) {
+                        def.classList.add('correct');
+                    }
+                });
+            }
+            
+            questaoVocab++;
+            setTimeout(proximaPalavra, 2000);
+        }
+
+        function finalizarVocabulario() {
+            vocabAtivo = false;
+            const resultado = document.getElementById('resultadoVocab');
+            const porcentagem = Math.round((acertosVocab / 10) * 100);
+            
+            resultado.innerHTML = `
+                <div class="alert alert-info">
+                    <h5><i class="fas fa-graduation-cap me-2"></i>Teste Concluído!</h5>
+                    <p><strong>Pontuação:</strong> ${pontosVocab} pontos</p>
+                    <p><strong>Acertos:</strong> ${acertosVocab}/10 (${porcentagem}%)</p>
+                    <p><strong>Nível:</strong> ${porcentagem >= 80 ? 'Excelente' : porcentagem >= 60 ? 'Bom' : porcentagem >= 40 ? 'Regular' : 'Precisa melhorar'}</p>
+                </div>
+            `;
+            resultado.style.display = 'block';
+        }
+
+        // Construtor de Frases
+        const frases = [
+            { palavras: ["O", "gato", "subiu", "no", "telhado"], correta: "O gato subiu no telhado" },
+            { palavras: ["A", "criança", "brinca", "no", "parque"], correta: "A criança brinca no parque" },
+            { palavras: ["O", "professor", "ensina", "a", "lição"], correta: "O professor ensina a lição" },
+            { palavras: ["A", "chuva", "molhou", "as", "flores"], correta: "A chuva molhou as flores" },
+            { palavras: ["O", "cachorro", "late", "para", "o", "carteiro"], correta: "O cachorro late para o carteiro" },
+            { palavras: ["A", "borboleta", "voa", "sobre", "o", "jardim"], correta: "A borboleta voa sobre o jardim" },
+            { palavras: ["O", "livro", "está", "na", "mesa"], correta: "O livro está na mesa" },
+            { palavras: ["A", "música", "toca", "no", "rádio"], correta: "A música toca no rádio" }
+        ];
+
+        let fraseAtual = null;
+        let frasesCompletas = 0;
+        let palavrasNaFrase = [];
+
+        function novaFrase() {
+            fraseAtual = frases[Math.floor(Math.random() * frases.length)];
+            palavrasNaFrase = [];
+            
+            // Limpar construtor
+            const builder = document.getElementById('sentenceBuilder');
+            builder.innerHTML = '<span class="text-muted">Arraste as palavras aqui para formar a frase...</span>';
+            
+            // Embaralhar palavras
+            const palavrasEmbaralhadas = [...fraseAtual.palavras].sort(() => Math.random() - 0.5);
+            
+            // Criar banco de palavras
+            const wordBank = document.getElementById('wordBank');
+            wordBank.innerHTML = '';
+            
+            palavrasEmbaralhadas.forEach(palavra => {
+                const span = document.createElement('span');
+                span.className = 'word-token';
+                span.textContent = palavra;
+                span.onclick = () => adicionarPalavra(palavra, span);
+                wordBank.appendChild(span);
+            });
+            
+            document.getElementById('resultadoFrase').innerHTML = '';
+        }
+
+        function adicionarPalavra(palavra, elemento) {
+            palavrasNaFrase.push(palavra);
+            elemento.style.display = 'none';
+            
+            const builder = document.getElementById('sentenceBuilder');
+            if (palavrasNaFrase.length === 1) {
+                builder.innerHTML = '';
+            }
+            
+            const span = document.createElement('span');
+            span.className = 'word-token';
+            span.textContent = palavra;
+            span.onclick = () => removerPalavra(palavra, span, elemento);
+            builder.appendChild(span);
+        }
+
+        function removerPalavra(palavra, spanBuilder, spanOriginal) {
+            const index = palavrasNaFrase.indexOf(palavra);
+            if (index > -1) {
+                palavrasNaFrase.splice(index, 1);
+                spanBuilder.remove();
+                spanOriginal.style.display = 'inline-block';
+                
+                if (palavrasNaFrase.length === 0) {
+                    const builder = document.getElementById('sentenceBuilder');
+                    builder.innerHTML = '<span class="text-muted">Arraste as palavras aqui para formar a frase...</span>';
+                }
+            }
+        }
+
+        function verificarFrase() {
+            if (palavrasNaFrase.length === 0) return;
+            
+            const fraseFormada = palavrasNaFrase.join(' ');
+            const resultado = document.getElementById('resultadoFrase');
+            
+            if (fraseFormada === fraseAtual.correta) {
+                frasesCompletas++;
+                document.getElementById('frasesCompletas').textContent = frasesCompletas;
+                resultado.innerHTML = '<div class="alert alert-success"><i class="fas fa-check me-2"></i>Correto! Frase formada com sucesso!</div>';
+            } else {
+                resultado.innerHTML = `<div class="alert alert-danger"><i class="fas fa-times me-2"></i>Incorreto. A frase correta é: "${fraseAtual.correta}"</div>`;
+            }
+        }
+
+        function limparFrase() {
+            palavrasNaFrase = [];
+            const builder = document.getElementById('sentenceBuilder');
+            builder.innerHTML = '<span class="text-muted">Arraste as palavras aqui para formar a frase...</span>';
+            
+            const wordBank = document.getElementById('wordBank');
+            const tokens = wordBank.querySelectorAll('.word-token');
+            tokens.forEach(token => token.style.display = 'inline-block');
+            
+            document.getElementById('resultadoFrase').innerHTML = '';
+        }
+
+        // Jogo de Sinônimos
+        const sinonimos = [
+            { palavra: "FELIZ", sinonimos: ["ALEGRE", "CONTENTE", "SATISFEITO"], outros: ["TRISTE", "ZANGADO", "NERVOSO"] },
+            { palavra: "GRANDE", sinonimos: ["ENORME", "GIGANTE", "IMENSO"], outros: ["PEQUENO", "MINÚSCULO", "DIMINUTO"] },
+            { palavra: "RÁPIDO", sinonimos: ["VELOZ", "ÁGIL", "LIGEIRO"], outros: ["LENTO", "DEVAGAR", "VAGAROSO"] },
+            { palavra: "BONITO", sinonimos: ["BELO", "LINDO", "FORMOSO"], outros: ["FEIO", "HORRÍVEL", "TERRÍVEL"] },
+            { palavra: "INTELIGENTE", sinonimos: ["ESPERTO", "SÁBIO", "PERSPICAZ"], outros: ["BURRO", "IGNORANTE", "TOLO"] },
+            { palavra: "FORTE", sinonimos: ["ROBUSTO", "VIGOROSO", "POTENTE"], outros: ["FRACO", "FRÁGIL", "DÉBIL"] },
+            { palavra: "CALMO", sinonimos: ["TRANQUILO", "SERENO", "PACÍFICO"], outros: ["AGITADO", "NERVOSO", "INQUIETO"] },
+            { palavra: "DIFÍCIL", sinonimos: ["COMPLICADO", "ÁRDUO", "COMPLEXO"], outros: ["FÁCIL", "SIMPLES", "ELEMENTAR"] }
+        ];
+
+        let sinonimoAtivo = false;
+        let pontosSinonimos = 0;
+        let sequenciaSinonimos = 0;
+        let itemSinonimo = null;
+
+        function iniciarSinonimos() {
+            sinonimoAtivo = true;
+            pontosSinonimos = 0;
+            sequenciaSinonimos = 0;
+            
+            document.getElementById('pontosSinonimos').textContent = '0';
+            document.getElementById('sequenciaSinonimos').textContent = '0';
+            document.getElementById('resultadoSinonimos').style.display = 'none';
+            
+            proximoSinonimo();
+        }
+
+        function proximoSinonimo() {
+            if (!sinonimoAtivo) return;
+            
+            itemSinonimo = sinonimos[Math.floor(Math.random() * sinonimos.length)];
+            document.getElementById('palavraSinonimo').textContent = itemSinonimo.palavra;
+            
+            // Criar opções (1 sinônimo correto + 3 outros)
+            const opcoes = [
+                itemSinonimo.sinonimos[Math.floor(Math.random() * itemSinonimo.sinonimos.length)],
+                ...itemSinonimo.outros.slice(0, 3)
+            ].sort(() => Math.random() - 0.5);
+            
+            const grid = document.getElementById('synonymGrid');
+            grid.innerHTML = '';
+            
+            opcoes.forEach(opcao => {
+                const div = document.createElement('div');
+                div.className = 'synonym-card';
+                div.textContent = opcao;
+                div.onclick = () => escolherSinonimo(div, opcao);
+                grid.appendChild(div);
+            });
+        }
+
+        function escolherSinonimo(elemento, opcao) {
+            if (!sinonimoAtivo) return;
+            
+            const cards = document.querySelectorAll('.synonym-card');
+            cards.forEach(card => card.onclick = null);
+            
+            if (itemSinonimo.sinonimos.includes(opcao)) {
+                elemento.classList.add('correct');
+                pontosSinonimos += 10;
+                sequenciaSinonimos++;
+                document.getElementById('pontosSinonimos').textContent = pontosSinonimos;
+                document.getElementById('sequenciaSinonimos').textContent = sequenciaSinonimos;
+            } else {
+                elemento.classList.add('incorrect');
+                sequenciaSinonimos = 0;
+                document.getElementById('sequenciaSinonimos').textContent = sequenciaSinonimos;
+                
+                // Mostrar resposta correta
+                cards.forEach(card => {
+                    if (itemSinonimo.sinonimos.includes(card.textContent)) {
+                        card.classList.add('correct');
+                    }
+                });
+            }
+            
+            setTimeout(proximoSinonimo, 2000);
+        }
+
+        // Inicializar jogos
+        window.onload = function() {
+            novaFrase();
+            iniciarSinonimos();
+        };
+    </script>
+</body>
+</html>

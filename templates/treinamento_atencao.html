@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treinamento de Atenção - Recursos Cognitivos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2B4872;
+            --secondary-color: #56CAC9;
+            --accent-color: #F4A261;
+            --success-color: #2A9D8F;
+            --danger-color: #E76F51;
+            --background-color: #F8F9FA;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(43, 72, 114, 0.4);
+        }
+        
+        .game-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .target-area {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair;
+            border: 2px solid var(--secondary-color);
+        }
+        
+        .target {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: var(--danger-color);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .target:hover {
+            transform: scale(1.1);
+        }
+        
+        .target.clicked {
+            background: var(--success-color);
+            transform: scale(0.8);
+        }
+        
+        .stroop-word {
+            font-size: 3rem;
+            font-weight: bold;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .stroop-word:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .attention-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        
+        .attention-cell {
+            aspect-ratio: 1;
+            background: var(--background-color);
+            border: 2px solid var(--secondary-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .attention-cell:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+        
+        .attention-cell.target-letter {
+            background: var(--accent-color);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .attention-cell.found {
+            background: var(--success-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-brain me-2"></i>Recursos Cognitivos
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/treinamento-atencao">Treinamento de Atenção</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold" style="color: var(--primary-color);">
+                        <i class="fas fa-eye me-3"></i>Treinamento de Atenção
+                    </h1>
+                    <p class="lead text-muted">Desenvolva seu foco e concentração com exercícios interativos</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jogo de Reflexos -->
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="game-card">
+                    <h3 class="text-center mb-4" style="color: var(--primary-color);">
+                        <i class="fas fa-bullseye me-2"></i>Teste de Reflexos
+                    </h3>
+                    
+                    <div class="text-center mb-4">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Pontuação</h6>
+                                    <span id="pontuacao" class="fs-4 fw-bold" style="color: var(--primary-color);">0</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Tempo</h6>
+                                    <span id="tempoReflexo" class="fs-4 fw-bold" style="color: var(--accent-color);">30s</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Acertos</h6>
+                                    <span id="acertos" class="fs-4 fw-bold" style="color: var(--success-color);">0</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Erros</h6>
+                                    <span id="erros" class="fs-4 fw-bold" style="color: var(--danger-color);">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="target-area" id="targetArea" onclick="clickArea(event)">
+                        <div class="text-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #6c757d;">
+                            Clique nos alvos vermelhos que aparecem!
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary" onclick="iniciarReflexos()">
+                            <i class="fas fa-play me-2"></i>Iniciar Teste
+                        </button>
+                        <button class="btn btn-secondary ms-2" onclick="pararReflexos()">
+                            <i class="fas fa-stop me-2"></i>Parar
+                        </button>
+                    </div>
+
+                    <div id="resultadoReflexos" class="text-center mt-4" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teste de Stroop -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-8">
+                <div class="game-card">
+                    <h3 class="text-center mb-4" style="color: var(--primary-color);">
+                        <i class="fas fa-palette me-2"></i>Teste de Stroop
+                    </h3>
+                    
+                    <div class="text-center mb-4">
+                        <p>Clique na <strong>COR</strong> da palavra, não no que está escrito!</p>
+                        <div class="row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Pontos Stroop</h6>
+                                    <span id="pontosStroop" class="fs-4 fw-bold" style="color: var(--primary-color);">0</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Tempo Restante</h6>
+                                    <span id="tempoStroop" class="fs-4 fw-bold" style="color: var(--accent-color);">60s</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="stroopArea" class="text-center">
+                        <div class="stroop-word" id="stroopWord" style="background: #f8f9fa; color: #6c757d;">
+                            Clique em "Iniciar" para começar
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-6 col-md-3">
+                                <button class="btn w-100 p-3" style="background: red; color: white;" onclick="escolherCor('red')">
+                                    VERMELHO
+                                </button>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <button class="btn w-100 p-3" style="background: blue; color: white;" onclick="escolherCor('blue')">
+                                    AZUL
+                                </button>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <button class="btn w-100 p-3" style="background: green; color: white;" onclick="escolherCor('green')">
+                                    VERDE
+                                </button>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <button class="btn w-100 p-3" style="background: orange; color: white;" onclick="escolherCor('orange')">
+                                    LARANJA
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary" onclick="iniciarStroop()">
+                            <i class="fas fa-play me-2"></i>Iniciar Stroop
+                        </button>
+                    </div>
+
+                    <div id="resultadoStroop" class="text-center mt-4" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Busca Visual -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-8">
+                <div class="game-card">
+                    <h3 class="text-center mb-4" style="color: var(--primary-color);">
+                        <i class="fas fa-search me-2"></i>Busca Visual
+                    </h3>
+                    
+                    <div class="text-center mb-4">
+                        <p>Encontre todas as letras <strong id="letraAlvo">A</strong> na grade:</p>
+                        <div class="row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Encontradas</h6>
+                                    <span id="letrasEncontradas" class="fs-4 fw-bold" style="color: var(--success-color);">0/5</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h6>Tempo</h6>
+                                    <span id="tempoBusca" class="fs-4 fw-bold" style="color: var(--accent-color);">00:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="attention-grid" id="attentionGrid">
+                        <!-- Grid será gerado pelo JavaScript -->
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary" onclick="iniciarBuscaVisual()">
+                            <i class="fas fa-play me-2"></i>Nova Busca
+                        </button>
+                    </div>
+
+                    <div id="resultadoBusca" class="text-center mt-4" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Variáveis globais
+        let jogoAtivo = false;
+        let pontuacao = 0;
+        let acertos = 0;
+        let erros = 0;
+        let tempoRestante = 30;
+        let intervalos = [];
+
+        // Jogo de Reflexos
+        function iniciarReflexos() {
+            if (jogoAtivo) return;
+            
+            jogoAtivo = true;
+            pontuacao = 0;
+            acertos = 0;
+            erros = 0;
+            tempoRestante = 30;
+            
+            document.getElementById('pontuacao').textContent = '0';
+            document.getElementById('acertos').textContent = '0';
+            document.getElementById('erros').textContent = '0';
+            document.getElementById('resultadoReflexos').style.display = 'none';
+            
+            // Timer principal
+            const timerInterval = setInterval(() => {
+                tempoRestante--;
+                document.getElementById('tempoReflexo').textContent = tempoRestante + 's';
+                
+                if (tempoRestante <= 0) {
+                    pararReflexos();
+                }
+            }, 1000);
+            intervalos.push(timerInterval);
+            
+            // Gerar alvos
+            gerarAlvos();
+        }
+
+        function gerarAlvos() {
+            if (!jogoAtivo) return;
+            
+            const area = document.getElementById('targetArea');
+            const target = document.createElement('div');
+            target.className = 'target';
+            target.textContent = '●';
+            
+            // Posição aleatória
+            const maxX = area.offsetWidth - 50;
+            const maxY = area.offsetHeight - 50;
+            target.style.left = Math.random() * maxX + 'px';
+            target.style.top = Math.random() * maxY + 'px';
+            
+            target.onclick = (e) => {
+                e.stopPropagation();
+                acertarAlvo(target);
+            };
+            
+            area.appendChild(target);
+            
+            // Remover alvo após 2 segundos
+            setTimeout(() => {
+                if (area.contains(target)) {
+                    area.removeChild(target);
+                }
+            }, 2000);
+            
+            // Gerar próximo alvo
+            const proximoAlvo = setTimeout(() => {
+                gerarAlvos();
+            }, Math.random() * 1500 + 500);
+            intervalos.push(proximoAlvo);
+        }
+
+        function acertarAlvo(target) {
+            target.classList.add('clicked');
+            acertos++;
+            pontuacao += 10;
+            
+            document.getElementById('acertos').textContent = acertos;
+            document.getElementById('pontuacao').textContent = pontuacao;
+            
+            setTimeout(() => {
+                if (target.parentNode) {
+                    target.parentNode.removeChild(target);
+                }
+            }, 200);
+        }
+
+        function clickArea(event) {
+            if (!jogoAtivo) return;
+            
+            // Clique na área vazia (erro)
+            if (event.target.id === 'targetArea') {
+                erros++;
+                pontuacao = Math.max(0, pontuacao - 5);
+                document.getElementById('erros').textContent = erros;
+                document.getElementById('pontuacao').textContent = pontuacao;
+            }
+        }
+
+        function pararReflexos() {
+            jogoAtivo = false;
+            intervalos.forEach(interval => clearTimeout(interval));
+            intervalos = [];
+            
+            // Limpar alvos
+            const area = document.getElementById('targetArea');
+            const targets = area.querySelectorAll('.target');
+            targets.forEach(target => target.remove());
+            
+            // Mostrar resultado
+            const resultado = document.getElementById('resultadoReflexos');
+            resultado.innerHTML = `
+                <div class="alert alert-info">
+                    <h5><i class="fas fa-chart-line me-2"></i>Resultado Final</h5>
+                    <p><strong>Pontuação:</strong> ${pontuacao} pontos</p>
+                    <p><strong>Acertos:</strong> ${acertos} | <strong>Erros:</strong> ${erros}</p>
+                    <p><strong>Precisão:</strong> ${acertos + erros > 0 ? Math.round((acertos / (acertos + erros)) * 100) : 0}%</p>
+                </div>
+            `;
+            resultado.style.display = 'block';
+        }
+
+        // Teste de Stroop
+        let stroopAtivo = false;
+        let pontosStroop = 0;
+        let tempoStroop = 60;
+        let corAtual = '';
+        let palavraAtual = '';
+
+        const cores = {
+            'red': 'VERMELHO',
+            'blue': 'AZUL', 
+            'green': 'VERDE',
+            'orange': 'LARANJA'
+        };
+
+        function iniciarStroop() {
+            if (stroopAtivo) return;
+            
+            stroopAtivo = true;
+            pontosStroop = 0;
+            tempoStroop = 60;
+            
+            document.getElementById('pontosStroop').textContent = '0';
+            document.getElementById('resultadoStroop').style.display = 'none';
+            
+            // Timer
+            const stroopTimer = setInterval(() => {
+                tempoStroop--;
+                document.getElementById('tempoStroop').textContent = tempoStroop + 's';
+                
+                if (tempoStroop <= 0) {
+                    finalizarStroop();
+                    clearInterval(stroopTimer);
+                }
+            }, 1000);
+            
+            gerarPalavraStroop();
+        }
+
+        function gerarPalavraStroop() {
+            if (!stroopAtivo) return;
+            
+            const coresArray = Object.keys(cores);
+            const palavrasArray = Object.values(cores);
+            
+            corAtual = coresArray[Math.floor(Math.random() * coresArray.length)];
+            palavraAtual = palavrasArray[Math.floor(Math.random() * palavrasArray.length)];
+            
+            const wordElement = document.getElementById('stroopWord');
+            wordElement.textContent = palavraAtual;
+            wordElement.style.color = corAtual;
+            wordElement.style.background = '#f8f9fa';
+        }
+
+        function escolherCor(cor) {
+            if (!stroopAtivo) return;
+            
+            if (cor === corAtual) {
+                pontosStroop += 10;
+                document.getElementById('pontosStroop').textContent = pontosStroop;
+                
+                // Feedback visual
+                const wordElement = document.getElementById('stroopWord');
+                wordElement.style.background = '#d4edda';
+                setTimeout(() => {
+                    wordElement.style.background = '#f8f9fa';
+                }, 200);
+            } else {
+                pontosStroop = Math.max(0, pontosStroop - 5);
+                document.getElementById('pontosStroop').textContent = pontosStroop;
+                
+                // Feedback visual
+                const wordElement = document.getElementById('stroopWord');
+                wordElement.style.background = '#f8d7da';
+                setTimeout(() => {
+                    wordElement.style.background = '#f8f9fa';
+                }, 200);
+            }
+            
+            setTimeout(gerarPalavraStroop, 300);
+        }
+
+        function finalizarStroop() {
+            stroopAtivo = false;
+            
+            const resultado = document.getElementById('resultadoStroop');
+            resultado.innerHTML = `
+                <div class="alert alert-success">
+                    <h5><i class="fas fa-trophy me-2"></i>Teste Concluído!</h5>
+                    <p><strong>Pontuação Final:</strong> ${pontosStroop} pontos</p>
+                    <p><strong>Média:</strong> ${Math.round(pontosStroop / 60 * 100) / 100} pontos por segundo</p>
+                </div>
+            `;
+            resultado.style.display = 'block';
+            
+            document.getElementById('stroopWord').textContent = 'Teste finalizado!';
+            document.getElementById('stroopWord').style.color = '#6c757d';
+        }
+
+        // Busca Visual
+        let buscaAtiva = false;
+        let letraAlvo = 'A';
+        let letrasEncontradas = 0;
+        let totalLetrasAlvo = 5;
+        let inicioBusca;
+
+        function iniciarBuscaVisual() {
+            buscaAtiva = true;
+            letrasEncontradas = 0;
+            totalLetrasAlvo = 5;
+            inicioBusca = new Date();
+            
+            // Escolher letra alvo aleatória
+            const letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+            letraAlvo = letras[Math.floor(Math.random() * letras.length)];
+            
+            document.getElementById('letraAlvo').textContent = letraAlvo;
+            document.getElementById('letrasEncontradas').textContent = '0/' + totalLetrasAlvo;
+            document.getElementById('resultadoBusca').style.display = 'none';
+            
+            gerarGrid();
+            iniciarTimerBusca();
+        }
+
+        function gerarGrid() {
+            const grid = document.getElementById('attentionGrid');
+            grid.innerHTML = '';
+            
+            const letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P'];
+            const totalCells = 36;
+            const cells = [];
+            
+            // Adicionar letras alvo
+            for (let i = 0; i < totalLetrasAlvo; i++) {
+                cells.push(letraAlvo);
+            }
+            
+            // Preencher resto com letras aleatórias
+            for (let i = totalLetrasAlvo; i < totalCells; i++) {
+                const letraAleatoria = letras[Math.floor(Math.random() * letras.length)];
+                cells.push(letraAleatoria);
+            }
+            
+            // Embaralhar
+            cells.sort(() => Math.random() - 0.5);
+            
+            // Criar células
+            cells.forEach((letra, index) => {
+                const cell = document.createElement('div');
+                cell.className = 'attention-cell';
+                cell.textContent = letra;
+                cell.onclick = () => clickLetra(cell, letra);
+                grid.appendChild(cell);
+            });
+        }
+
+        function clickLetra(cell, letra) {
+            if (!buscaAtiva) return;
+            
+            if (letra === letraAlvo && !cell.classList.contains('found')) {
+                cell.classList.add('found');
+                letrasEncontradas++;
+                document.getElementById('letrasEncontradas').textContent = letrasEncontradas + '/' + totalLetrasAlvo;
+                
+                if (letrasEncontradas === totalLetrasAlvo) {
+                    finalizarBusca();
+                }
+            }
+        }
+
+        function iniciarTimerBusca() {
+            const timer = setInterval(() => {
+                if (!buscaAtiva) {
+                    clearInterval(timer);
+                    return;
+                }
+                
+                const elapsed = Math.floor((new Date() - inicioBusca) / 1000);
+                const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+                const seconds = (elapsed % 60).toString().padStart(2, '0');
+                document.getElementById('tempoBusca').textContent = `${minutes}:${seconds}`;
+            }, 1000);
+        }
+
+        function finalizarBusca() {
+            buscaAtiva = false;
+            const tempoTotal = Math.floor((new Date() - inicioBusca) / 1000);
+            
+            const resultado = document.getElementById('resultadoBusca');
+            resultado.innerHTML = `
+                <div class="alert alert-success">
+                    <h5><i class="fas fa-check-circle me-2"></i>Parabéns!</h5>
+                    <p>Você encontrou todas as letras <strong>${letraAlvo}</strong> em <strong>${tempoTotal}</strong> segundos!</p>
+                    <p><strong>Velocidade:</strong> ${Math.round(totalLetrasAlvo / tempoTotal * 100) / 100} letras por segundo</p>
+                </div>
+            `;
+            resultado.style.display = 'block';
+        }
+
+        // Inicializar busca visual ao carregar
+        window.onload = function() {
+            iniciarBuscaVisual();
+        };
+    </script>
+</body>
+</html>

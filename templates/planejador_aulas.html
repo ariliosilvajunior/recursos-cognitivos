@@ -1,0 +1,356 @@
+{% extends "recursos_cognitivos_base.html" %}
+
+{% block title %}Planejador de Aulas - Recursos Cognitivos{% endblock %}
+
+{% block header_title %}Planejador de Aulas{% endblock %}
+
+{% block mode_text %}Modo Aula: Crie planos de aula detalhados e personalizados.{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h2><i class="material-icons">cast_for_education</i> Planejador de Aulas</h2>
+    
+    <!-- Seleção da IA -->
+    <div class="field-group">
+        <h3><i class="material-icons">smart_toy</i> Seleção da(s) IA(s)</h3>
+        <label for="aula-ia-selecionada">IA(s) que pretende usar (selecione uma ou mais):*</label>
+        <select id="aula-ia-selecionada" class="form-control" multiple>
+            <optgroup label="IAs de Texto">
+                <option value="ChatGPT">ChatGPT</option>
+                <option value="Google Bard">Google Bard</option>
+                <option value="Claude">Claude</option>
+                <option value="Outra (Texto)">Outra (Texto)</option>
+            </optgroup>
+            <optgroup label="IAs de Imagem">
+                <option value="DALL-E">DALL-E</option>
+                <option value="Midjourney">Midjourney</option>
+                <option value="Stable Diffusion">Stable Diffusion</option>
+                <option value="Outra (Imagem)">Outra (Imagem)</option>
+            </optgroup>
+            <optgroup label="IAs de Áudio">
+                <option value="ElevenLabs">ElevenLabs (Voz)</option>
+                <option value="AIVA">AIVA (Música)</option>
+                <option value="Outra (Áudio)">Outra (Áudio)</option>
+            </optgroup>
+        </select>
+        <div class="field-hint">Selecione a(s) IA(s) para otimizar o prompt.</div>
+    </div>
+
+    <form class="form" id="form-aulas">
+        <!-- Dados Essenciais -->
+        <div class="field-group">
+            <h3><i class="material-icons">school</i> Dados Essenciais da Aula</h3>
+            
+            <label for="aula-escola">Escola:</label>
+            <input type="text" id="aula-escola" placeholder="Nome da escola">
+            <div class="field-hint">Nome da instituição de ensino.</div>
+            
+            <label for="aula-professor">Professor:</label>
+            <input type="text" id="aula-professor" placeholder="Nome do professor">
+            <div class="field-hint">Nome do educador responsável.</div>
+            
+            <label for="aula-disciplina">Disciplina:*</label>
+            <select id="aula-disciplina" class="form-control">
+                <option value="" selected disabled>Selecione a disciplina</option>
+                <option value="Matemática">Matemática</option>
+                <option value="Português">Português</option>
+                <option value="História">História</option>
+                <option value="Geografia">Geografia</option>
+                <option value="Ciências">Ciências</option>
+                <option value="Biologia">Biologia</option>
+                <option value="Física">Física</option>
+                <option value="Química">Química</option>
+                <option value="Artes">Artes</option>
+                <option value="Educação Física">Educação Física</option>
+                <option value="Filosofia">Filosofia</option>
+                <option value="Sociologia">Sociologia</option>
+                <option value="Inglês">Inglês</option>
+                <option value="Espanhol">Espanhol</option>
+                <option value="Outra">Outra</option>
+            </select>
+            <div class="field-hint">Matéria principal da aula.</div>
+            
+            <label for="aula-tema">Tema Central da Aula:*</label>
+            <input type="text" id="aula-tema" placeholder="Ex: Frações, Revolução Industrial, Fotossíntese...">
+            <div class="field-hint">Tópico específico que será abordado na aula.</div>
+            
+            <label for="aula-nivel">Nível/Etapa de Ensino:*</label>
+            <select id="aula-nivel" class="form-control">
+                <option value="" selected disabled>Para qual público é a aula?</option>
+                <option value="Educação Infantil">Educação Infantil</option>
+                <option value="Ensino Fundamental I (1º ao 5º ano)">Ensino Fundamental I (1º ao 5º ano)</option>
+                <option value="Ensino Fundamental II (6º ao 9º ano)">Ensino Fundamental II (6º ao 9º ano)</option>
+                <option value="Ensino Médio">Ensino Médio</option>
+                <option value="EJA - Educação de Jovens e Adultos">EJA - Educação de Jovens e Adultos</option>
+                <option value="Ensino Superior">Ensino Superior</option>
+                <option value="Ensino Técnico">Ensino Técnico</option>
+            </select>
+            <div class="field-hint">Público-alvo da aula.</div>
+            
+            <label for="aula-turma">Turma:</label>
+            <input type="text" id="aula-turma" placeholder="Ex: 5º ano B, 2ª série A">
+            <div class="field-hint">Identificação específica da turma.</div>
+        </div>
+
+        <!-- Objetivos e Conteúdos -->
+        <div class="field-group">
+            <h3><i class="material-icons">flag</i> Objetivos e Conteúdos</h3>
+            
+            <label for="aula-objetivos">Objetivos de Aprendizagem:*</label>
+            <textarea id="aula-objetivos" rows="3" placeholder="Ex: Compreender o conceito de frações, identificar numerador e denominador..."></textarea>
+            <div class="field-hint">O que os alunos devem aprender ao final da aula.</div>
+            
+            <label for="aula-conteudos">Conteúdos Específicos:*</label>
+            <textarea id="aula-conteudos" rows="4" placeholder="Detalhe os conteúdos que serão abordados na aula..."></textarea>
+            <div class="field-hint">Tópicos detalhados que serão trabalhados.</div>
+            
+            <label for="aula-duracao">Duração da Aula:</label>
+            <select id="aula-duracao" class="form-control">
+                <option value="">Selecione a duração</option>
+                <option value="30 minutos">30 minutos</option>
+                <option value="45 minutos">45 minutos</option>
+                <option value="50 minutos">50 minutos</option>
+                <option value="1 hora">1 hora</option>
+                <option value="1h 30 minutos">1h 30 minutos</option>
+                <option value="2 horas">2 horas</option>
+            </select>
+            <div class="field-hint">Tempo total disponível para a aula.</div>
+        </div>
+
+        <!-- Metodologia -->
+        <div class="field-group">
+            <h3><i class="material-icons">psychology</i> Metodologia</h3>
+            
+            <label for="aula-metodologia">Estratégias Metodológicas:</label>
+            <textarea id="aula-metodologia" rows="3" placeholder="Ex: Aula expositiva, trabalho em grupos, experimentos práticos..."></textarea>
+            <div class="field-hint">Como o conteúdo será apresentado aos alunos.</div>
+            
+            <label for="aula-recursos">Recursos Necessários:</label>
+            <textarea id="aula-recursos" rows="3" placeholder="Ex: Quadro, projetor, materiais concretos, laboratório..."></textarea>
+            <div class="field-hint">Materiais e equipamentos necessários.</div>
+            
+            <label for="aula-atividades">Atividades Propostas:</label>
+            <textarea id="aula-atividades" rows="4" placeholder="Descreva as atividades que os alunos realizarão..."></textarea>
+            <div class="field-hint">Exercícios e tarefas para os estudantes.</div>
+        </div>
+
+        <!-- Avaliação -->
+        <div class="field-group">
+            <h3><i class="material-icons">assessment</i> Avaliação</h3>
+            
+            <label for="aula-avaliacao">Métodos de Avaliação:</label>
+            <textarea id="aula-avaliacao" rows="3" placeholder="Ex: Observação, exercícios práticos, questionário..."></textarea>
+            <div class="field-hint">Como verificar se os objetivos foram alcançados.</div>
+            
+            <label for="aula-bncc">Alinhamento com BNCC:</label>
+            <select id="aula-bncc" class="form-control">
+                <option value="">Não aplicar alinhamento BNCC</option>
+                <option value="Sim, garantir alinhamento com habilidades e competências da BNCC">Sim, alinhar com a BNCC</option>
+            </select>
+            <div class="field-hint">Conectar com a Base Nacional Comum Curricular.</div>
+        </div>
+
+        <!-- Observações -->
+        <div class="field-group">
+            <h3><i class="material-icons">note</i> Observações Adicionais</h3>
+            
+            <label for="aula-observacoes">Observações e Adaptações:</label>
+            <textarea id="aula-observacoes" rows="3" placeholder="Ex: Adaptações para alunos com necessidades especiais, dificuldades esperadas..."></textarea>
+            <div class="field-hint">Informações extras importantes para o planejamento.</div>
+        </div>
+
+        <div class="btn-action-group">
+            <button type="button" class="btn-clear" id="limpar-aulas">
+                <i class="material-icons">delete_sweep</i> Limpar
+            </button>
+            <button type="submit" class="btn-submit" id="gerar-prompt-aula">
+                <i class="material-icons">settings</i> Gerar Prompt da Aula
+            </button>
+        </div>
+    </form>
+
+    <!-- Área de Resultado -->
+    <div id="resultado-prompt-aula" class="field-group hidden">
+        <h3><i class="material-icons">assignment</i> Prompt Gerado</h3>
+        <div id="prompt-aula-content" class="content-editable" contenteditable="true"></div>
+        <div class="btn-action-group" style="justify-content: flex-start; margin-top: 15px;">
+            <button type="button" class="btn-download" id="copiar-prompt-aula">
+                <i class="material-icons">content_copy</i> Copiar Prompt
+            </button>
+        </div>
+    </div>
+
+    <!-- Área para Resposta da IA -->
+    <div id="area-resposta-ia-aula" class="field-group hidden">
+        <h3><i class="material-icons">smart_toy</i> Resposta da IA</h3>
+        <label for="resposta-ia-aula">Cole a resposta da IA aqui:</label>
+        <textarea id="resposta-ia-aula" rows="10" placeholder="Cole aqui a resposta completa da IA..."></textarea>
+        <div class="btn-action-group">
+            <button type="button" class="btn-submit" id="processar-resposta-aula">
+                <i class="material-icons">done_all</i> Processar Resposta
+            </button>
+        </div>
+    </div>
+
+    <!-- Resultado Final -->
+    <div id="resultado-final-aula" class="field-group hidden">
+        <h3><i class="material-icons">assignment_turned_in</i> Plano de Aula Final</h3>
+        <div id="plano-aula-content" class="content-editable" contenteditable="true"></div>
+        
+        <div class="btn-action-group" style="justify-content: flex-start; margin-top: 15px;">
+            <button type="button" class="btn-download" id="download-plano-aula">
+                <i class="material-icons">download</i> Baixar Plano de Aula
+            </button>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const formAulas = document.getElementById('form-aulas');
+    const resultadoPromptAula = document.getElementById('resultado-prompt-aula');
+    const promptAulaContent = document.getElementById('prompt-aula-content');
+    const areaRespostaIaAula = document.getElementById('area-resposta-ia-aula');
+    const resultadoFinalAula = document.getElementById('resultado-final-aula');
+    
+    // Gerar Prompt
+    document.getElementById('gerar-prompt-aula').addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Validação básica
+        const disciplina = document.getElementById('aula-disciplina').value;
+        const tema = document.getElementById('aula-tema').value;
+        const nivel = document.getElementById('aula-nivel').value;
+        const objetivos = document.getElementById('aula-objetivos').value;
+        const conteudos = document.getElementById('aula-conteudos').value;
+        
+        if (!disciplina || !tema || !nivel || !objetivos || !conteudos) {
+            alert('Por favor, preencha todos os campos obrigatórios (*)');
+            return;
+        }
+        
+        // Coletar dados do formulário
+        const dados = {
+            disciplina: disciplina,
+            tema: tema,
+            nivel: nivel,
+            escola: document.getElementById('aula-escola').value,
+            professor: document.getElementById('aula-professor').value,
+            turma: document.getElementById('aula-turma').value,
+            objetivos: objetivos,
+            conteudos: conteudos,
+            duracao: document.getElementById('aula-duracao').value,
+            metodologia: document.getElementById('aula-metodologia').value,
+            recursos: document.getElementById('aula-recursos').value,
+            atividades: document.getElementById('aula-atividades').value,
+            avaliacao: document.getElementById('aula-avaliacao').value,
+            bncc: document.getElementById('aula-bncc').value,
+            observacoes: document.getElementById('aula-observacoes').value
+        };
+        
+        // Enviar para API
+        fetch('/api/gerar-prompt-aula', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dados)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                promptAulaContent.textContent = data.prompt;
+                resultadoPromptAula.classList.remove('hidden');
+                areaRespostaIaAula.classList.remove('hidden');
+                
+                // Copiar automaticamente para clipboard
+                navigator.clipboard.writeText(data.prompt).then(() => {
+                    mostrarFeedback('Prompt copiado para a área de transferência!');
+                });
+            } else {
+                alert('Erro: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao gerar prompt');
+        });
+    });
+    
+    // Processar Resposta da IA
+    document.getElementById('processar-resposta-aula').addEventListener('click', function() {
+        const respostaIa = document.getElementById('resposta-ia-aula').value;
+        
+        if (!respostaIa.trim()) {
+            alert('Por favor, cole a resposta da IA');
+            return;
+        }
+        
+        fetch('/api/processar-resposta-ia', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ resposta: respostaIa })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('plano-aula-content').textContent = data.plano_aula;
+                resultadoFinalAula.classList.remove('hidden');
+            } else {
+                alert('Erro: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao processar resposta');
+        });
+    });
+    
+    // Copiar Prompt
+    document.getElementById('copiar-prompt-aula').addEventListener('click', function() {
+        const texto = promptAulaContent.textContent;
+        navigator.clipboard.writeText(texto).then(() => {
+            mostrarFeedback('Prompt copiado!');
+        });
+    });
+    
+    // Download
+    document.getElementById('download-plano-aula').addEventListener('click', function() {
+        const conteudo = document.getElementById('plano-aula-content').textContent;
+        downloadArquivo(conteudo, 'plano-aula');
+    });
+    
+    // Limpar formulário
+    document.getElementById('limpar-aulas').addEventListener('click', function() {
+        formAulas.reset();
+        resultadoPromptAula.classList.add('hidden');
+        areaRespostaIaAula.classList.add('hidden');
+        resultadoFinalAula.classList.add('hidden');
+    });
+    
+    // Funções auxiliares
+    function downloadArquivo(conteudo, tipo) {
+        const url = `/api/download/${tipo}?conteudo=${encodeURIComponent(conteudo)}`;
+        const a = document.createElement('a');
+        a.href = url;
+        a.click();
+    }
+    
+    function mostrarFeedback(mensagem) {
+        let feedback = document.querySelector('.copy-feedback');
+        if (!feedback) {
+            feedback = document.createElement('div');
+            feedback.className = 'copy-feedback';
+            document.body.appendChild(feedback);
+        }
+        feedback.textContent = mensagem;
+        feedback.classList.add('show');
+        setTimeout(() => feedback.classList.remove('show'), 3000);
+    }
+});
+</script>
+{% endblock %}
